@@ -1,0 +1,185 @@
+# Cursor Rules for Full-Stack CMS Project
+
+## Project Overview
+This is a Content Management System (CMS) with Spring Boot 3.4.7 backend and React/TypeScript frontend using Vite, Tailwind CSS, and axios.
+
+## Backend (Spring Boot) Rules
+
+### Architecture & Structure
+- Follow **Layered Architecture**: Controller → Service → Repository → Entity
+- Use **DTOs** for API requests/responses to separate internal entities from external API
+- Implement **RESTful conventions** for all endpoints
+- Use **proper package structure**: `com.example.fullstack.{controller,service,repository,entity,dto,config}`
+
+### Code Quality Standards
+- **Java 17+** features: Use records, pattern matching, text blocks where appropriate
+- **Spring Boot 3.4.7** best practices
+- **JPA/Hibernate** with proper annotations and relationships
+- **Validation** using `@Valid` and Bean Validation annotations
+- **Exception handling** with `@ControllerAdvice` and proper HTTP status codes
+
+### API Design Rules
+- **RESTful endpoints**: Use proper HTTP methods (GET, POST, PUT, DELETE, PATCH)
+- **Consistent response format**: Use `ApiResponse<T>` wrapper for all responses
+- **Proper HTTP status codes**: 200, 201, 400, 404, 500, etc.
+- **CORS configuration** for frontend integration
+- **Request/Response validation** with `@Valid` annotations
+
+### Database & JPA Rules
+- **Entity relationships**: Use proper JPA annotations (`@OneToMany`, `@ManyToOne`, etc.)
+- **Audit fields**: Include `createdAt`, `updatedAt` in all entities
+- **Soft deletes**: Use `isActive` boolean instead of hard deletes
+- **Indexing**: Add `@Index` annotations for frequently queried fields
+- **Naming conventions**: Use snake_case for database columns, camelCase for Java fields
+
+### Security & Validation
+- **Input validation**: Use Bean Validation annotations (`@NotNull`, `@Size`, `@Email`, etc.)
+- **Business logic validation**: Implement in service layer
+- **Error handling**: Return meaningful error messages
+- **CORS**: Configure for development and production environments
+
+### Testing Guidelines
+- **Unit tests** for service layer
+- **Integration tests** for controllers
+- **Repository tests** for data access
+- **Test data**: Use `@TestConfiguration` and test databases
+
+## Frontend (React/TypeScript) Rules
+
+### Technology Stack
+- **React 19.1.0** with functional components and hooks
+- **TypeScript 5.8.3** with strict type checking
+- **Vite 7.0.0** for build tooling
+- **Tailwind CSS 4.1.11** for styling
+- **Axios** for HTTP requests
+- **ESLint** for code quality
+
+### Component Architecture
+- **Functional components** with hooks (no class components)
+- **TypeScript interfaces** for all props and state
+- **Custom hooks** for reusable logic
+- **Component composition** over inheritance
+- **Proper prop drilling** or context for state management
+
+### State Management
+- **React hooks**: `useState`, `useEffect`, `useContext`, `useReducer`
+- **Custom hooks** for API calls and business logic
+- **Context API** for global state when needed
+- **Local state** for component-specific data
+
+### API Integration
+- **Axios interceptors** for common headers and error handling
+- **Type-safe API calls** with TypeScript interfaces
+- **Loading states** and error handling
+- **Optimistic updates** where appropriate
+- **Retry logic** for failed requests
+
+### Styling Guidelines
+- **Tailwind CSS** utility classes
+- **Responsive design** with mobile-first approach
+- **Consistent spacing** using Tailwind's spacing scale
+- **Dark mode** support where applicable
+- **Accessibility** with proper ARIA labels and semantic HTML
+
+### Code Quality
+- **ESLint** rules enforcement
+- **TypeScript strict mode** enabled
+- **Proper error boundaries** for error handling
+- **Performance optimization** with `React.memo`, `useMemo`, `useCallback`
+- **Code splitting** with lazy loading
+
+## Project-Specific Patterns
+
+### CMS Entity Patterns
+- **User management**: Roles (ADMIN, EDITOR, AUTHOR, VIEWER)
+- **Content management**: Posts with status (DRAFT, PUBLISHED, ARCHIVED)
+- **Category system**: Hierarchical content organization
+- **Audit trails**: Track creation, modification, and publication dates
+
+### API Endpoint Conventions
+```
+GET    /api/{resource}          # List all
+GET    /api/{resource}/{id}     # Get by ID
+POST   /api/{resource}          # Create new
+PUT    /api/{resource}/{id}     # Update existing
+DELETE /api/{resource}/{id}     # Delete
+PATCH  /api/{resource}/{id}/action  # Specific actions
+```
+
+### Error Handling Patterns
+- **Backend**: Consistent error response format with status codes
+- **Frontend**: User-friendly error messages with retry options
+- **Validation**: Client-side and server-side validation
+- **Network errors**: Graceful degradation and offline support
+
+### Development Workflow
+- **Hot reloading** for both frontend and backend
+- **Environment-specific** configurations
+- **Database migrations** and seeding
+- **API documentation** with OpenAPI/Swagger
+- **Testing** at all levels (unit, integration, e2e)
+
+## File Naming Conventions
+
+### Backend
+- **Controllers**: `*Controller.java`
+- **Services**: `*Service.java`
+- **Repositories**: `*Repository.java`
+- **Entities**: `*Entity.java` or just `*.java`
+- **DTOs**: `*Dto.java`
+- **Configs**: `*Config.java`
+
+### Frontend
+- **Components**: `PascalCase.tsx` (e.g., `UserProfile.tsx`)
+- **Hooks**: `useCamelCase.ts` (e.g., `useApi.ts`)
+- **Types**: `camelCase.types.ts` (e.g., `user.types.ts`)
+- **Utils**: `camelCase.ts` (e.g., `apiUtils.ts`)
+- **Constants**: `UPPER_SNAKE_CASE.ts` (e.g., `API_ENDPOINTS.ts`)
+
+## Performance Guidelines
+
+### Backend
+- **Database queries**: Use proper indexing and avoid N+1 queries
+- **Caching**: Implement caching for frequently accessed data
+- **Pagination**: Use pagination for large datasets
+- **Async processing**: Use `@Async` for long-running operations
+
+### Frontend
+- **Bundle optimization**: Code splitting and lazy loading
+- **Image optimization**: Use appropriate formats and sizes
+- **Caching**: Implement proper caching strategies
+- **Debouncing**: Use debouncing for search and form inputs
+
+## Security Best Practices
+
+### Backend
+- **Input sanitization**: Validate and sanitize all inputs
+- **SQL injection prevention**: Use parameterized queries
+- **XSS prevention**: Proper output encoding
+- **CORS**: Configure appropriate origins and methods
+
+### Frontend
+- **XSS prevention**: Sanitize user inputs
+- **CSRF protection**: Include CSRF tokens in requests
+- **Secure storage**: Use secure storage for sensitive data
+- **HTTPS**: Always use HTTPS in production
+
+## Documentation Standards
+- **README files**: Comprehensive setup and usage instructions
+- **API documentation**: OpenAPI/Swagger documentation
+- **Code comments**: Javadoc for Java, JSDoc for TypeScript
+- **Inline comments**: Explain complex business logic
+
+## Testing Requirements
+- **Backend**: Minimum 80% code coverage
+- **Frontend**: Component testing with React Testing Library
+- **Integration tests**: API endpoint testing
+- **E2E tests**: Critical user journey testing
+
+## Deployment Guidelines
+- **Environment variables**: Use proper environment configuration
+- **Docker**: Containerize both frontend and backend
+- **CI/CD**: Automated testing and deployment pipelines
+- **Monitoring**: Health checks and logging
+
+Remember: Always prioritize code readability, maintainability, and user experience. Follow these rules consistently to ensure a high-quality, scalable CMS application. 
