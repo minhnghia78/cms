@@ -1,7 +1,7 @@
 package com.example.fullstack.controller;
 
 import com.example.fullstack.dto.UserDto;
-import com.example.fullstack.service.UserService;
+import com.example.fullstack.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
