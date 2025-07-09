@@ -1,6 +1,6 @@
 package com.example.fullstack.controller;
 
-import com.example.fullstack.dto.ApiResponse;
+import com.example.fullstack.dto.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +11,7 @@ public class HealthController {
 
     @GetMapping("/health")
     public ResponseEntity<ApiResponse> health() {
-        return ResponseEntity.ok(new ApiResponse("CMS Backend is running!", "SUCCESS"));
+//        return ResponseEntity.ok(new ApiResponse("CMS Backend is running!", "SUCCESS"));
+        return null;
     }
 } 

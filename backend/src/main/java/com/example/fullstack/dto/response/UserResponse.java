@@ -1,18 +1,16 @@
-package com.example.fullstack.dto;
+package com.example.fullstack.dto.response;
 
 import com.example.fullstack.entity.UserRole;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-import java.time.LocalDateTime;
-
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+@Builder
+public class UserResponse {
     private Long id;
     private String username;
     private String email;

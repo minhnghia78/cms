@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CategoryDto {
-    private Long id;
     private String name;
     private String description;
     private Boolean isActive;

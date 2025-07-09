@@ -1,14 +1,19 @@
-package com.example.fullstack.dto;
+package com.example.fullstack.dto.response;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApiResponse {
-    private String message;
-    private Object data;
+@Builder
+public class ApiResponse<T> {
     private String status;
+
+    private T data;
+
+    private String message;
+
 }

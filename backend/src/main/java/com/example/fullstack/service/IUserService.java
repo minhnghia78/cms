@@ -1,5 +1,7 @@
 package com.example.fullstack.service;
 
+import com.example.fullstack.dto.request.UserCreateRequest;
+import com.example.fullstack.dto.request.UserUpdateRequest;
 import com.example.fullstack.entity.User;
 import com.example.fullstack.entity.UserRole;
 import org.springframework.data.domain.Page;
@@ -14,9 +16,9 @@ public interface IUserService {
 
     User getUserById(Long id);
 
-    User saveUser(User user);
+    User saveUser(UserCreateRequest request);
 
-    User updateUser(User user);
+    User updateUser(UserUpdateRequest request);
 
     void deleteUser(Long id);
 }

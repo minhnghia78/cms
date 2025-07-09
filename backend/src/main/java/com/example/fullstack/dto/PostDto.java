@@ -1,6 +1,7 @@
 package com.example.fullstack.dto;
 
 import com.example.fullstack.entity.PostStatus;
+import com.example.fullstack.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostDto {
-    private Long id;
     private String title;
     private String slug;
     private String content;
@@ -22,7 +22,7 @@ public class PostDto {
     private String featuredImage;
     private PostStatus status;
     private Long authorId;
-    private UserDto author;
+    private User author;
     private Long categoryId;
     private CategoryDto category;
     private List<String> tags;

@@ -38,7 +38,7 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private List<UserRole> role;
+    private UserRole role;
 
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
