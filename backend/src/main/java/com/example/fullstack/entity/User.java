@@ -1,6 +1,7 @@
 package com.example.fullstack.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class User {
     private String username;
 
     @Column(name = "password")
+    @Size(min = 5, max = 20)
     private String password;
 
     @Column(name = "email", unique = true)

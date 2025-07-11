@@ -24,12 +24,14 @@ public class Post {
     @Column(name = "title")
     private String title;
 
+    //url: ex:how-to-make-the-perfect-cup-of-coffee
     @Column(name = "slug", unique = true)
     private String slug;
 
     @Column(name = "content")
     private String content;
 
+    //short summary
     @Column(name="excerpt")
     private String excerpt;
 
