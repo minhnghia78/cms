@@ -21,4 +21,7 @@ public interface IUserService {
     User updateUser(UserUpdateRequest request);
 
     void deleteUser(Long id);
+
+    void updateStatusUser(Long id, Boolean status);
+
 }

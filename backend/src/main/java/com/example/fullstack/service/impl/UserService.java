@@ -76,4 +76,13 @@ public class UserService implements IUserService {
                 .ifPresentOrElse(userRepository::delete,
                         () -> new EntityNotFoundException("User not found!!!") );
     }
+
+    @Override
+    public void updateStatusUser(Long id, Boolean status) {
+        userRepository.findById(id)
+                .ifPresent(user -> {
+                    user.setIsActive(status);
+                    userRepository.save(user);
+                });
+    }
 }

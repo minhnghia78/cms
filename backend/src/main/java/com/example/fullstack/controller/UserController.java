@@ -5,6 +5,7 @@ import com.example.fullstack.dto.request.UserUpdateRequest;
 import com.example.fullstack.dto.response.ApiResponse;
 import com.example.fullstack.dto.response.UserResponse;
 import com.example.fullstack.entity.User;
+import com.example.fullstack.entity.UserRole;
 import com.example.fullstack.mapper.UserMapper;
 import com.example.fullstack.service.IUserService;
 import com.example.fullstack.service.impl.UserService;
@@ -62,18 +63,26 @@ public class UserController {
         userService.deleteUser(id);
         return ResponseEntity.ok(new ApiResponse<>("204", null, "Delete user successfully"));
     }
-//
-//    @GetMapping("/active")
-//    public ResponseEntity<List<UserDto>> getActiveUsers() {
-//        List<UserDto> activeUsers = userService.getActiveUsers();
-//        return ResponseEntity.ok(activeUsers);
-//    }
-//
-//    @GetMapping("/role/{role}")
-//    public ResponseEntity<List<UserDto>> getUsersByRole(@PathVariable String role) {
-//        List<UserDto> users = userService.getUsersByRole(role);
-//        return ResponseEntity.ok(users);
-//    }
+
+    @GetMapping("/active")
+    public ResponseEntity<ApiResponse<Page<UserResponse>>> getActiveUsers(Pageable pageable) {
+        Page<User> activeUsers = userService.getActiveUsers(pageable);
+        Page<UserResponse> userResponses = activeUsers.map(userMapper::toUserResponse);
+        return ResponseEntity.ok(new ApiResponse<>("200", userResponses, null));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<Page<UserResponse>>> getUsersByRole(@RequestParam UserRole role, Pageable pageable) {
+        Page<User> usersByRole = userService.getUsersByRole(role, pageable);
+        Page<UserResponse> userResponses = usersByRole.map(userMapper::toUserResponse);
+        return ResponseEntity.ok(new ApiResponse<>("200", userResponses, null));
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<ApiResponse<Page<UserResponse>>> updateUserStatus(@PathVariable Long id, @RequestParam Boolean isActive) {
+        userService.updateStatusUser(id, isActive);
+        return ResponseEntity.ok(new ApiResponse<>("200", null, "Update status successfully"));
+    }
 //
 //    @GetMapping("/check-username/{username}")
 //    public ResponseEntity<Boolean> checkUsernameExists(@PathVariable String username) {
