@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Getter
@@ -51,6 +51,6 @@ public class Post {
     private Category category;
 
     @Column(name = "published_at")
-    private LocalDateTime publishedAt;
+    private ZonedDateTime publishedAt;
 
 } 

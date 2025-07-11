@@ -26,7 +26,7 @@ public class User {
     private String username;
 
     @Column(name = "password")
-    @Size(min = 5, max = 20)
+    @Size(min = 5, max = 20, message = "Password must be between 5 and 20 characters")
     private String password;
 
     @Column(name = "email", unique = true)

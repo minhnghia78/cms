@@ -1,18 +1,12 @@
 package com.example.fullstack.service.impl;
 
-import com.example.fullstack.dto.CategoryDto;
 import com.example.fullstack.entity.Category;
 import com.example.fullstack.repository.CategoryRepository;
 import com.example.fullstack.service.ICategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service

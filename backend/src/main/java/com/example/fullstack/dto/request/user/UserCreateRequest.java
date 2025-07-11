@@ -1,4 +1,4 @@
-package com.example.fullstack.dto.request;
+package com.example.fullstack.dto.request.user;
 
 import com.example.fullstack.entity.UserRole;
 import lombok.*;

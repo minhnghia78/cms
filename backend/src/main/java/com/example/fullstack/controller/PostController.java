@@ -1,101 +1,125 @@
-//package com.example.fullstack.controller;
-//
-//import com.example.fullstack.dto.PostDto;
-//import com.example.fullstack.service.impl.PostService;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@RestController
-//@RequestMapping("/api/posts")
-//@CrossOrigin(origins = "http://localhost:3000")
-//public class PostController {
-//
-//    @Autowired
-//    private PostService postService;
-//
-//    @GetMapping
-//    public ResponseEntity<List<PostDto>> getAllPosts() {
-//        List<PostDto> posts = postService.getAllPosts();
-//        return ResponseEntity.ok(posts);
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<PostDto> getPostById(@PathVariable Long id) {
-//        return postService.getPostById(id)
-//                .map(ResponseEntity::ok)
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    @PostMapping
-//    public ResponseEntity<PostDto> createPost(@RequestBody PostDto postDto) {
-//        PostDto createdPost = postService.createPost(postDto);
-//        return ResponseEntity.ok(createdPost);
-//    }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<PostDto> updatePost(@PathVariable Long id, @RequestBody PostDto postDto) {
-//        return postService.updatePost(id, postDto)
-//                .map(ResponseEntity::ok)
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
-//        if (postService.deletePost(id)) {
-//            return ResponseEntity.ok().build();
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
-//
-//    @PatchMapping("/{id}/publish")
-//    public ResponseEntity<PostDto> publishPost(@PathVariable Long id) {
-//        return postService.publishPost(id)
-//                .map(ResponseEntity::ok)
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    @PatchMapping("/{id}/archive")
-//    public ResponseEntity<PostDto> archivePost(@PathVariable Long id) {
-//        return postService.archivePost(id)
-//                .map(ResponseEntity::ok)
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    @GetMapping("/author/{authorId}")
-//    public ResponseEntity<List<PostDto>> getPostsByAuthor(@PathVariable Long authorId) {
-//        List<PostDto> posts = postService.getPostsByAuthor(authorId);
-//        return ResponseEntity.ok(posts);
-//    }
-//
-//    @GetMapping("/category/{categoryId}")
-//    public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable Long categoryId) {
-//        List<PostDto> posts = postService.getPostsByCategory(categoryId);
-//        return ResponseEntity.ok(posts);
-//    }
-//
-//    @GetMapping("/published")
-//    public ResponseEntity<List<PostDto>> getPublishedPosts() {
-//        List<PostDto> posts = postService.getPublishedPosts();
-//        return ResponseEntity.ok(posts);
-//    }
-//
-//    @GetMapping("/status/{status}")
-//    public ResponseEntity<List<PostDto>> getPostsByStatus(@PathVariable String status) {
-//        try {
-//            var postStatus = com.example.fullstack.entity.PostStatus.valueOf(status.toUpperCase());
-//            List<PostDto> posts = postService.getPostsByStatus(postStatus);
-//            return ResponseEntity.ok(posts);
-//        } catch (IllegalArgumentException e) {
-//            return ResponseEntity.badRequest().build();
-//        }
-//    }
+package com.example.fullstack.controller;
+
+import com.example.fullstack.dto.request.post.PostCreateRequest;
+import com.example.fullstack.dto.request.post.PostUpdateRequest;
+import com.example.fullstack.dto.response.ApiResponse;
+import com.example.fullstack.dto.response.PostResponse;
+import com.example.fullstack.entity.Post;
+import com.example.fullstack.entity.PostStatus;
+import com.example.fullstack.mapper.PostMapper;
+import com.example.fullstack.service.impl.PostService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/posts")
+@CrossOrigin(origins = "http://localhost:3000")
+@RequiredArgsConstructor
+public class PostController {
+
+    private final PostService postService;
+
+    private final PostMapper postMapper;
+
+    @GetMapping
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getAllPosts(Pageable pageable) {
+        Page<Post> posts = postService.getAllPosts(pageable);
+        Page<PostResponse> postResponses = posts.map(postMapper::toPostResponse);
+        return ResponseEntity.ok(new ApiResponse<>("200", postResponses, null));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<PostResponse>> getPostById(@PathVariable Long id) {
+        Post post = postService.getPostById(id);
+        PostResponse postResponse = postMapper.toPostResponse(post);
+
+        return ResponseEntity.ok(new ApiResponse<>("200", postResponse, null));
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse<PostResponse>> createPost(@RequestBody PostCreateRequest request) {
+        Post createdPost = postService.savePost(request);
+        PostResponse postResponse = postMapper.toPostResponse(createdPost);
+        return ResponseEntity.ok(new ApiResponse<>("201", postResponse, "Create Post successfully"));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<PostResponse>> updatePost(@PathVariable Long id, @RequestBody PostUpdateRequest request) {
+        Post updatedPost = postService.updatePost(request);
+        PostResponse postResponse = postMapper.toPostResponse(updatedPost);
+
+        return ResponseEntity.ok(new ApiResponse<>("200", postResponse, "Update Post successfully"));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiResponse<Void>> deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+        return ResponseEntity.ok(new ApiResponse<>("204", null, "Delete Post successfully"));
+    }
+
+    @PatchMapping("/{id}/publish")
+    public ResponseEntity<ApiResponse<Void>> publishPost(@PathVariable Long id) {
+        postService.publishPost(id);
+        return ResponseEntity.ok(new ApiResponse<>("204", null, "Publish Post successfully"));
+    }
+
+    @PatchMapping("/{id}/archive")
+    public ResponseEntity<ApiResponse<Void>> archivePost(@PathVariable Long id) {
+        postService.archivedPost(id);
+        return ResponseEntity.ok(new ApiResponse<>("204", null, "Archive Post successfully"));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> searchPost(@RequestParam String title, Pageable pageable) {
+        Page<Post> posts = postService.searchPost(title, pageable);
+        Page<PostResponse> postResponses = posts.map(postMapper::toPostResponse);
+        return ResponseEntity.ok(new ApiResponse<>("200", postResponses, null));
+    }
+
+    @GetMapping("/author/{authorId}")
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPostsByAuthor(@PathVariable Long authorId, Pageable pageable) {
+        Page<Post> posts = postService.getPostsByAuthor(authorId, pageable);
+        Page<PostResponse> postResponses = posts.map(postMapper::toPostResponse);
+        return ResponseEntity.ok(new ApiResponse<>("200", postResponses, null));
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPostsByCategory(@PathVariable Long categoryId, Pageable pageable) {
+        Page<Post> posts = postService.getPostsByCategory(categoryId, pageable);
+        Page<PostResponse> postResponses = posts.map(postMapper::toPostResponse);
+        return ResponseEntity.ok(new ApiResponse<>("200", postResponses, null));
+    }
+
+    @GetMapping("/published")
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPublishedPosts(Pageable pageable) {
+        Page<Post> posts = postService.getPublishedPosts(pageable);
+        Page<PostResponse> postResponses = posts.map(postMapper::toPostResponse);
+        return ResponseEntity.ok(new ApiResponse<>("200", postResponses, null));
+    }
+
+    @GetMapping("/status/{status}")
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPostsByStatus(@PathVariable PostStatus status, Pageable pageable) {
+        Page<Post> posts = postService.getPostsByStatus(status, pageable);
+        Page<PostResponse> postResponses = posts.map(postMapper::toPostResponse);
+        return ResponseEntity.ok(new ApiResponse<>("200", postResponses, null));
+    }
+
+    @GetMapping("/published/{authorId}")
+    public ResponseEntity<ApiResponse<Page<PostResponse>>> getPublishedPostsByAuthor(@PathVariable Long authorId, Pageable pageable) {
+        Page<Post> posts = postService.getPublishedPostsByAuthor(authorId, pageable);
+        Page<PostResponse> postResponses = posts.map(postMapper::toPostResponse);
+        return ResponseEntity.ok(new ApiResponse<>("200", postResponses, null));
+    }
 //
 //    @GetMapping("/check-slug/{slug}")
 //    public ResponseEntity<Boolean> checkSlugExists(@PathVariable String slug) {
 //        boolean exists = postService.existsBySlug(slug);
 //        return ResponseEntity.ok(exists);
 //    }
-//}
+}

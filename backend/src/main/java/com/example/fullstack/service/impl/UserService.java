@@ -1,8 +1,7 @@
 package com.example.fullstack.service.impl;
 
-import com.example.fullstack.dto.request.UserCreateRequest;
-import com.example.fullstack.dto.request.UserUpdateRequest;
-import com.example.fullstack.dto.response.UserResponse;
+import com.example.fullstack.dto.request.user.UserCreateRequest;
+import com.example.fullstack.dto.request.user.UserUpdateRequest;
 import com.example.fullstack.entity.User;
 import com.example.fullstack.entity.UserRole;
 import com.example.fullstack.repository.UserRepository;
@@ -21,7 +20,7 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
 
     @Override
-    public Page<User> findAll(Pageable pageable) {
+    public Page<User> getAllUsers(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
 
@@ -38,7 +37,7 @@ public class UserService implements IUserService {
     @Override
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("User not found!!!"));
+                .orElseThrow(()-> new EntityNotFoundException("User not found with id "+ id));
     }
 
     @Override
@@ -74,7 +73,9 @@ public class UserService implements IUserService {
     public void deleteUser(Long id) {
          userRepository.findById(id)
                 .ifPresentOrElse(userRepository::delete,
-                        () -> new EntityNotFoundException("User not found!!!") );
+                        () -> {
+                            throw new EntityNotFoundException("User not found!!!");
+                        });
     }
 
     @Override

@@ -1,28 +1,23 @@
-package com.example.fullstack.dto.response;
+package com.example.fullstack.dto.request.post;
 
 import com.example.fullstack.entity.Category;
-import com.example.fullstack.entity.PostStatus;
 import com.example.fullstack.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PostResponse {
-    private Long id;
+public class PostCreateRequest {
     private String title;
     private String slug;
     private String content;
     private String excerpt;
     private String featuredImage;
-    private PostStatus status;
     private User author;
     private Category category;
-    private LocalDateTime publishedAt;
+
 }

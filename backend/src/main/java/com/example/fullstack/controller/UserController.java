@@ -1,22 +1,18 @@
 package com.example.fullstack.controller;
 
-import com.example.fullstack.dto.request.UserCreateRequest;
-import com.example.fullstack.dto.request.UserUpdateRequest;
+import com.example.fullstack.dto.request.user.UserCreateRequest;
+import com.example.fullstack.dto.request.user.UserUpdateRequest;
 import com.example.fullstack.dto.response.ApiResponse;
 import com.example.fullstack.dto.response.UserResponse;
 import com.example.fullstack.entity.User;
 import com.example.fullstack.entity.UserRole;
 import com.example.fullstack.mapper.UserMapper;
 import com.example.fullstack.service.IUserService;
-import com.example.fullstack.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -29,7 +25,7 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<ApiResponse<Page<UserResponse>>> getAllUsers(Pageable pageable) {
-        Page<User> users = userService.findAll(pageable);
+        Page<User> users = userService.getAllUsers(pageable);
         Page<UserResponse> userResponses = users.map(userMapper::toUserResponse);
 
         return ResponseEntity.ok(new ApiResponse<>("200", userResponses, null));
