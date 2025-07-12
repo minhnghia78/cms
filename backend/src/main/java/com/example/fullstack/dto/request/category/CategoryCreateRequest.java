@@ -1,4 +1,4 @@
-package com.example.fullstack.dto.response;
+package com.example.fullstack.dto.request.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CategoryResponse {
-    private Long id;
+public class CategoryCreateRequest {
     private String name;
     private String description;
-    private Boolean isActive;
 }

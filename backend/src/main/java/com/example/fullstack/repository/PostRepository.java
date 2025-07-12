@@ -14,12 +14,12 @@ import java.util.Optional;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-    Optional<Post> findBySlug(String slug);
+
     Page<Post> findByStatus(PostStatus status, Pageable pageable);
-    Page<Post> findByAuthorId(Long authorId, Pageable pageable);
-    Page<Post> findByCategoryId(Long categoryId, Pageable pageable);
+
     Page<Post> findByAuthorIdAndStatus(Long authorId, PostStatus status, Pageable pageable);
-//    Page<Post> findByCategoryIdAndStatus(Long categoryId, PostStatus status);
+
+    Page<Post> findByCategoryIdAndStatus(Long categoryId, PostStatus status, Pageable pageable);
     
     @Query("SELECT p FROM Post p WHERE p.author.id = :authorId")
     Page<Post> findPostsByAuthor(@Param("authorId") Long authorId, Pageable pageable);

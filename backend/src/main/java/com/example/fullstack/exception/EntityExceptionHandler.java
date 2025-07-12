@@ -3,7 +3,6 @@ package com.example.fullstack.exception;
 import com.example.fullstack.dto.response.ApiResponse;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 @Order(2)
-public class UserExceptionHandler {
+public class EntityExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     ResponseEntity<ApiResponse> handlingUserNotFoundException(EntityNotFoundException exception){

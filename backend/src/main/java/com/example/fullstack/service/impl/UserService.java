@@ -37,13 +37,13 @@ public class UserService implements IUserService {
     @Override
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("User not found with id "+ id));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
     @Override
     public User saveUser(UserCreateRequest request) {
         if (userRepository.existsByUsername(request.getUsername())) {
-            throw new EntityExistsException("Username already existed!");
+            throw new EntityExistsException("Username already existed");
         }
         User createdUser = new User();
         createdUser.setUsername(request.getUsername());
@@ -66,15 +66,15 @@ public class UserService implements IUserService {
                     existingUser.setLastName(request.getLastName());
                     return userRepository.save(existingUser);
                 })
-                .orElseThrow(() -> new EntityNotFoundException("User not found!!!"));
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
     }
 
     @Override
     public void deleteUser(Long id) {
-         userRepository.findById(id)
+        userRepository.findById(id)
                 .ifPresentOrElse(userRepository::delete,
                         () -> {
-                            throw new EntityNotFoundException("User not found!!!");
+                            throw new EntityNotFoundException("User not found");
                         });
     }
 

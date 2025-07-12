@@ -37,13 +37,13 @@ public class PostService implements IPostService {
     @Override
     public Post getPostById(Long id) {
         return postRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("Post not found with id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Post not found"));
     }
 
     @Override
     public Post savePost(PostCreateRequest request) {
         if (postRepository.existsBySlug(request.getSlug())) {
-            throw new EntityExistsException("Post already exists with Slug " + request.getSlug());
+            throw new EntityExistsException("Post already exists with slug: " + request.getSlug());
         }
         Post post = new Post();
         post.setTitle(request.getTitle());
@@ -60,7 +60,7 @@ public class PostService implements IPostService {
     @Override
     public Post updatePost(PostUpdateRequest request) {
         return postRepository.findById(request.getId())
-                .map((p)->
+                .map((p) ->
                 {
                     p.setTitle(request.getTitle());
                     p.setContent(request.getContent());
@@ -69,7 +69,7 @@ public class PostService implements IPostService {
                     p.setCategory(request.getCategory());
                     return postRepository.save(p);
                 })
-                .orElseThrow(()-> new EntityNotFoundException("Post not found with id " + request.getId()));
+                .orElseThrow(() -> new EntityNotFoundException("Post not found"));
     }
 
     @Override
@@ -77,8 +77,8 @@ public class PostService implements IPostService {
 
         postRepository.findById(id).ifPresentOrElse(postRepository::delete,
                 () -> {
-                    throw new EntityNotFoundException("Post not found with id " + id);
-                }) ;
+                    throw new EntityNotFoundException("Post not found");
+                });
     }
 
     @Override
@@ -118,9 +118,9 @@ public class PostService implements IPostService {
                 .map(p -> {
                     p.setStatus(PostStatus.PUBLISHED);
                     p.setPublishedAt(ZonedDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh")));
-                   return postRepository.save(p);
+                    return postRepository.save(p);
                 })
-                .orElseThrow(()-> new EntityNotFoundException("Post not found with id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Post not found"));
     }
 
     @Override
@@ -130,6 +130,6 @@ public class PostService implements IPostService {
                     p.setStatus(PostStatus.ARCHIVED);
                     return postRepository.save(p);
                 })
-                .orElseThrow(()-> new EntityNotFoundException("Post not found with id " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Post not found"));
     }
 }
