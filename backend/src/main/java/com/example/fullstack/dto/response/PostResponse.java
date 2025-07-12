@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 @AllArgsConstructor
@@ -22,7 +23,7 @@ public class PostResponse {
     private String excerpt;
     private String featuredImage;
     private PostStatus status;
-    private User author;
-    private Category category;
-    private LocalDateTime publishedAt;
+    private String author;
+    private String category;
+    private ZonedDateTime publishedAt;
 }

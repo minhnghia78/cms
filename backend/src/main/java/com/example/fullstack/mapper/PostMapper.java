@@ -17,8 +17,9 @@ public class PostMapper {
         response.setSlug(post.getSlug());
         response.setExcerpt(post.getExcerpt());
         response.setFeaturedImage(post.getFeaturedImage());
-        response.setAuthor(post.getAuthor());
-        response.setCategory(post.getCategory());
+        response.setAuthor(post.getAuthor().getUsername());
+        response.setCategory(post.getCategory().getName());
+        response.setStatus(post.getStatus());
         response.setPublishedAt(post.getPublishedAt());
 
         return response;

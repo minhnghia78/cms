@@ -24,9 +24,9 @@ public class PostService implements IPostService {
 
     private final PostRepository postRepository;
 
-    private final UserRepository userRepository;
-
-    private final CategoryRepository categoryRepository;
+//    private final UserRepository userRepository;
+//
+//    private final CategoryRepository categoryRepository;
 
 
     @Override
@@ -64,13 +64,12 @@ public class PostService implements IPostService {
                 {
                     p.setTitle(request.getTitle());
                     p.setContent(request.getContent());
-                    p.setAuthor(request.getAuthor());
                     p.setExcerpt(request.getExcerpt());
                     p.setFeaturedImage(request.getFeaturedImage());
                     p.setCategory(request.getCategory());
                     return postRepository.save(p);
                 })
-                .orElseThrow(()-> new EntityNotFoundException("Post not found with id " + post.getId()));
+                .orElseThrow(()-> new EntityNotFoundException("Post not found with id " + request.getId()));
     }
 
     @Override

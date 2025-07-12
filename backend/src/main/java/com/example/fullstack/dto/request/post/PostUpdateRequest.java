@@ -17,6 +17,5 @@ public class PostUpdateRequest {
     private String content;
     private String excerpt;
     private String featuredImage;
-    private User author;
     private Category category;
 }

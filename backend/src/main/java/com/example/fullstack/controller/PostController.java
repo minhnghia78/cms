@@ -49,8 +49,8 @@ public class PostController {
         return ResponseEntity.ok(new ApiResponse<>("201", postResponse, "Create Post successfully"));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<PostResponse>> updatePost(@PathVariable Long id, @RequestBody PostUpdateRequest request) {
+    @PutMapping
+    public ResponseEntity<ApiResponse<PostResponse>> updatePost(@RequestBody PostUpdateRequest request) {
         Post updatedPost = postService.updatePost(request);
         PostResponse postResponse = postMapper.toPostResponse(updatedPost);
 
