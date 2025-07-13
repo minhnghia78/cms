@@ -14,6 +14,8 @@ public interface IUserService {
 
     Page<User> getUsersByRole(UserRole role, Pageable pageable);
 
+    User getUserByUsername(String username);
+
     User getUserById(Long id);
 
     User saveUser(UserCreateRequest request);

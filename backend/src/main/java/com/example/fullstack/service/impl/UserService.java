@@ -11,6 +11,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 public class UserService implements IUserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public Page<User> getAllUsers(Pageable pageable) {
@@ -35,6 +37,12 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElse(null);
+    }
+
+    @Override
     public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
@@ -47,7 +55,7 @@ public class UserService implements IUserService {
         }
         User createdUser = new User();
         createdUser.setUsername(request.getUsername());
-        createdUser.setPassword(request.getPassword());
+        createdUser.setPassword(passwordEncoder.encode(request.getPassword()));
         createdUser.setEmail(request.getEmail());
         createdUser.setFirstName(request.getFirstName());
         createdUser.setLastName(request.getLastName());
