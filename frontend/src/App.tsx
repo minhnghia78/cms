@@ -1,75 +1,35 @@
-import React, { useEffect } from 'react';
-import { Provider } from 'react-redux';
-import { store } from './store';
-import { useAppDispatch, useAppSelector } from './hooks/redux';
-import { fetchHealth } from './slices/healthSlice';
-import { fetchUsers } from './slices/usersSlice';
-import { fetchCategories } from './slices/categoriesSlice';
-import { fetchPosts } from './slices/postsSlice';
-import HealthCheck from './components/HealthCheck';
-import Navigation from './components/Navigation';
-import Dashboard from './components/Dashboard';
-import Users from './components/Users';
-import Categories from './components/Categories';
-import Posts from './components/Posts';
-
-function AppContent() {
-  const dispatch = useAppDispatch();
-  const { data: healthData, loading: healthLoading } = useAppSelector(state => state.health);
-  const [currentView, setCurrentView] = React.useState<'dashboard' | 'users' | 'categories' | 'posts'>('dashboard');
-
-  useEffect(() => {
-    // Check backend health on app start
-    dispatch(fetchHealth());
-  }, [dispatch]);
-
-  useEffect(() => {
-    // Load initial data if backend is healthy
-    if (healthData?.status === 'SUCCESS') {
-      dispatch(fetchUsers());
-      dispatch(fetchCategories());
-      dispatch(fetchPosts());
-    }
-  }, [healthData, dispatch]);
-
-  const renderContent = () => {
-    switch (currentView) {
-      case 'dashboard':
-        return <Dashboard />;
-      case 'users':
-        return <Users />;
-      case 'categories':
-        return <Categories />;
-      case 'posts':
-        return <Posts />;
-      default:
-        return <Dashboard />;
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <HealthCheck />
-      
-      <div className="flex">
-        <Navigation currentView={currentView} onViewChange={setCurrentView} />
-        
-        <main className="flex-1 p-6">
-          <div className="max-w-7xl mx-auto">
-            {renderContent()}
-          </div>
-        </main>
-      </div>
-    </div>
-  );
-}
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
 function App() {
+  const [count, setCount] = useState(0)
+
   return (
-    <Provider store={store}>
-      <AppContent />
-    </Provider>
-  );
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
 }
 
-export default App;
+export default App
