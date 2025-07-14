@@ -1,5 +1,7 @@
-import React from 'react';
-import { Search, Bell, MessageSquare, User } from 'lucide-react';
+import React from "react";
+import { Search, Bell, MessageSquare, User } from "lucide-react";
+import logo from "../assets/voz-logo.png";
+import Logo from "./Logo";
 
 interface HeaderProps {
   user?: {
@@ -10,39 +12,23 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ user }) => {
   return (
-    <header className="bg-slate-800 text-white shadow-lg">
+    <header className="bg-blue-950 text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo and Navigation */}
+        <Logo imgUrl={logo} />
+        <div className="flex items-center justify-between border-b border-b-black">
           <div className="flex items-center space-x-8">
-            <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                <MessageSquare className="w-5 h-5" />
-              </div>
-              <span className="text-xl font-bold">VOZ</span>
-            </div>
-            
-            <nav className="hidden md:flex space-x-6">
-              <a href="#" className="text-blue-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-b-2 border-blue-500">
+            <nav className="hidden md:flex space-x-2">
+              <a
+                href="#"
+                className="text-blue-950 px-4 py-2 rounded-t-md text-md font-bold bg-gray-200"
+              >
                 Forums
               </a>
-              <a href="#" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+              <a
+                href="#"
+                className="text-blue-300 px-4 py-2 rounded-t-md text-md font-semibold"
+              >
                 Latest
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                New posts
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                Find threads
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                Watched
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                Search forums
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
-                Mark forums read
               </a>
             </nav>
           </div>
@@ -91,4 +77,4 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
   );
 };
 
-export default Header; 
+export default Header;
