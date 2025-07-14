@@ -1,20 +1,42 @@
 import React from "react";
 import HeaderFeatureItem from "../HeaderFeatureItem";
 import { HeaderFeaturesProps } from "./features.type";
+import { Stack, Box, styled } from "@mui/material";
+
+const FeatureContainer = styled(Stack)(({ theme }) => ({
+  backgroundColor: theme.palette.grey[200],
+  borderBottom: `1px solid ${theme.palette.grey[400]}`
+}));
+
+const InnerContainer = styled(Stack)(({ theme }) => ({
+  maxWidth: theme.breakpoints.values.xl,
+  margin: '0 auto',
+  padding: theme.spacing(0, 2),
+  paddingTop: theme.spacing(0.75),
+  paddingBottom: theme.spacing(0.75),
+  [theme.breakpoints.up('sm')]: {
+    paddingLeft: theme.spacing(3),
+    paddingRight: theme.spacing(3),
+  },
+  [theme.breakpoints.up('lg')]: {
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+  }
+}));
 
 const HeaderFeatures = ({ items }: HeaderFeaturesProps) => {
   return (
-    <div className=" bg-gray-200 border-b border-b-gray-400">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1.5">
-        {items.map((i) => (
+    <FeatureContainer direction="row">
+      <InnerContainer direction="row" spacing={1}>
+        {items.map((item) => (
           <HeaderFeatureItem
-            key={i.key}
-            featureUrl={i.featureUrl}
-            label={i.label}
+            key={item.key}
+            featureUrl={item.featureUrl}
+            label={item.label}
           />
         ))}
-      </div>
-    </div>
+      </InnerContainer>
+    </FeatureContainer>
   );
 };
 

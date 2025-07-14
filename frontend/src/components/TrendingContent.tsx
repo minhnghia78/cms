@@ -1,5 +1,22 @@
 import React from 'react';
-import { MessageSquare, Eye, ThumbsUp } from 'lucide-react';
+import { 
+  Box, 
+  Paper, 
+  Typography, 
+  List, 
+  ListItem, 
+  ListItemAvatar, 
+  ListItemText, 
+  Avatar, 
+  Button,
+  Stack,
+  Divider
+} from '@mui/material';
+import {
+  Chat as MessageIcon,
+  Visibility as EyeIcon,
+  LocalFireDepartment as FireIcon
+} from '@mui/icons-material';
 
 interface TrendingPost {
   id: string;
@@ -62,14 +79,14 @@ const trendingPosts: TrendingPost[] = [
 
 const getAvatarColor = (name: string) => {
   const colors = [
-    'bg-blue-500',
-    'bg-green-500', 
-    'bg-purple-500',
-    'bg-red-500',
-    'bg-yellow-500',
-    'bg-indigo-500',
-    'bg-pink-500',
-    'bg-teal-500'
+    'primary.main',
+    'success.main', 
+    'secondary.main',
+    'error.main',
+    'warning.main',
+    'info.main',
+    'purple',
+    'teal'
   ];
   
   const index = name.charCodeAt(0) % colors.length;
@@ -78,59 +95,116 @@ const getAvatarColor = (name: string) => {
 
 const TrendingContent: React.FC = () => {
   return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
-      <div className="px-4 py-3 bg-gray-100 border-b border-gray-200 rounded-t-lg">
-        <h2 className="font-bold text-gray-800 flex items-center space-x-2">
-          <span>🔥</span>
-          <span>Trending content</span>
-        </h2>
-      </div>
+    <Paper elevation={1}>
+      <Box sx={{ 
+        px: 2, 
+        py: 1.5, 
+        bgcolor: 'grey.100', 
+        borderBottom: 1, 
+        borderColor: 'grey.300',
+        borderTopLeftRadius: 'inherit',
+        borderTopRightRadius: 'inherit',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1
+      }}>
+        <FireIcon color="error" fontSize="small" />
+        <Typography variant="subtitle1" fontWeight="bold" color="text.primary">
+          Trending content
+        </Typography>
+      </Box>
       
-      <div className="divide-y divide-gray-100">
-        {trendingPosts.map((post) => (
-          <div key={post.id} className="p-4 hover:bg-gray-50 cursor-pointer transition-colors">
-            <div className="flex items-start space-x-3">
-              {/* User Avatar */}
-              <div className={`w-8 h-8 ${getAvatarColor(post.author)} rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0`}>
-                {post.author.charAt(0).toUpperCase()}
-              </div>
-              
-              {/* Content */}
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium text-gray-900 line-clamp-2 hover:text-blue-600 transition-colors">
-                  {post.title}
-                </h3>
-                
-                <div className="mt-2 flex items-center justify-between text-xs text-gray-500">
-                  <div className="flex items-center space-x-2">
-                    <span className="font-medium text-gray-700">{post.author}</span>
-                    <span>•</span>
-                    <span>{post.timestamp}</span>
-                  </div>
-                </div>
-                
-                <div className="mt-2 flex items-center space-x-4 text-xs text-gray-500">
-                  <div className="flex items-center space-x-1">
-                    <MessageSquare className="w-3 h-3" />
-                    <span>Replies: {post.replies.toLocaleString()}</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Eye className="w-3 h-3" />
-                    <span>{post.views}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <List disablePadding sx={{ 
+        '& .MuiListItem-root': { 
+          px: 2, 
+          py: 2,
+          '&:hover': { bgcolor: 'grey.50' },
+          cursor: 'pointer'
+        } 
+      }}>
+        {trendingPosts.map((post, index) => (
+          <React.Fragment key={post.id}>
+            {index > 0 && <Divider variant="inset" component="li" />}
+            <ListItem alignItems="flex-start">
+              <ListItemAvatar>
+                <Avatar sx={{ bgcolor: getAvatarColor(post.author) }}>
+                  {post.author.charAt(0).toUpperCase()}
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary={
+                  <Typography 
+                    variant="body2" 
+                    fontWeight="medium" 
+                    color="text.primary"
+                    sx={{
+                      display: '-webkit-box',
+                      overflow: 'hidden',
+                      WebkitBoxOrient: 'vertical',
+                      WebkitLineClamp: 2,
+                      '&:hover': { color: 'primary.main' }
+                    }}
+                  >
+                    {post.title}
+                  </Typography>
+                }
+                secondary={
+                  <Box sx={{ mt: 1 }}>
+                    <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
+                      <Typography variant="body2" fontWeight="medium" color="text.primary">
+                        {post.author}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        •
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary">
+                        {post.timestamp}
+                      </Typography>
+                    </Stack>
+                    
+                    <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
+                      <Stack direction="row" alignItems="center" spacing={0.5}>
+                        <MessageIcon fontSize="inherit" color="action" />
+                        <Typography variant="caption" color="text.secondary">
+                          Replies: {post.replies.toLocaleString()}
+                        </Typography>
+                      </Stack>
+                      <Stack direction="row" alignItems="center" spacing={0.5}>
+                        <EyeIcon fontSize="inherit" color="action" />
+                        <Typography variant="caption" color="text.secondary">
+                          {post.views}
+                        </Typography>
+                      </Stack>
+                    </Stack>
+                  </Box>
+                }
+              />
+            </ListItem>
+          </React.Fragment>
         ))}
-      </div>
+      </List>
       
-      <div className="px-4 py-3 bg-gray-50 border-t border-gray-200 rounded-b-lg">
-        <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">
+      <Box sx={{ 
+        p: 2, 
+        borderTop: 1, 
+        borderColor: 'grey.200', 
+        bgcolor: 'grey.50',
+        borderBottomLeftRadius: 'inherit',
+        borderBottomRightRadius: 'inherit'
+      }}>
+        <Button 
+          color="primary" 
+          size="small" 
+          sx={{ 
+            fontSize: '0.875rem', 
+            fontWeight: 'medium',
+            '&:hover': { bgcolor: 'transparent' } 
+          }}
+        >
           View all trending content →
-        </button>
-      </div>
-    </div>
+        </Button>
+      </Box>
+    </Paper>
   );
 };
 

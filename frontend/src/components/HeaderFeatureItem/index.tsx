@@ -1,14 +1,23 @@
 import React from "react";
 import type { HeaderFeatureItemProps } from "./feature.type";
+import { Link, styled } from "@mui/material";
+
+const StyledLink = styled(Link)(({ theme }) => ({
+  color: theme.palette.primary.dark,
+  padding: theme.spacing(1, 1.5),
+  fontSize: '0.95rem',
+  fontWeight: 'normal',
+  '&:hover': {
+    color: theme.palette.warning.main,
+    textDecoration: 'underline'
+  }
+}));
 
 const HeaderFeatureItem = ({ featureUrl, label }: HeaderFeatureItemProps) => {
   return (
-    <a
-      href={featureUrl}
-      className="text-blue-950 hover:text-orange-500 hover:underline px-3 py-2 text-md font-normal"
-    >
+    <StyledLink href={featureUrl} underline="none">
       {label}
-    </a>
+    </StyledLink>
   );
 };
 

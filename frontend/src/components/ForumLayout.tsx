@@ -1,20 +1,32 @@
-import React, { useEffect, useState } from "react";
-import Header from "./Header";
-import ForumSidebar from "./ForumSidebar";
-import TrendingContent from "./TrendingContent";
-import { X } from "lucide-react";
-import axios from "axios";
-import HeaderFeatures from "./HeaderFeatures";
-import { HeaderFeatureItemProps } from "./HeaderFeatureItem/feature.type";
+import React, { useState } from 'react';
+import { 
+  Box, 
+  Container, 
+  Snackbar, 
+  Alert, 
+  Button, 
+  Stack,
+  Typography,
+  useTheme
+} from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
+import Header from './Header';
+import ForumSidebar from './ForumSidebar';
+import TrendingContent from './TrendingContent';
+import { HeaderFeatureItemProps } from './HeaderFeatureItem/feature.type';
+import HeaderFeatures from './HeaderFeatures';
 
 interface ForumLayoutProps {
   children?: React.ReactNode;
 }
 
 const ForumLayout: React.FC<ForumLayoutProps> = ({ children }) => {
+  const theme = useTheme();
+  const [showNotification, setShowNotification] = useState(true);
+
   // Mock user data - replace with actual auth context later
   const mockUser = {
-    name: "mnghialeo",
+    name: 'mnghialeo'
   };
 
   const featureHeaderItem: HeaderFeatureItemProps[] = [
@@ -45,85 +57,109 @@ const ForumLayout: React.FC<ForumLayoutProps> = ({ children }) => {
     },
   ];
 
-  const [showNotification, setShowNotification] = useState(true);
-  const [listUsers, setListUsers] = useState();
-
-  const getUsers = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/api/users");
-      if (response?.data) {
-        setListUsers(response?.data);
-      }
-    } catch (error) {
-      console.error("Failed to fetch users", error);
-    }
-  };
-  useEffect(() => {
-    getUsers();
-  }, []);
-
-  useEffect(() => {
-    console.log(listUsers);
-  }, [listUsers]);
-
   return (
-    <div className="min-h-screen bg-gray-300">
+    <Box sx={{ minHeight: '100vh', bgcolor: 'grey.100' }}>
       {/* Header */}
       <Header user={mockUser} />
       <HeaderFeatures items={featureHeaderItem} />
-
+      
       {/* Main Content Area */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <Container maxWidth="xl" sx={{ py: 3 }}>
+        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, gap: 3 }}>
           {/* Left Sidebar - Forum Categories */}
-          <div className="lg:col-span-2">
+          <Box sx={{ flex: { xs: '1 1 100%', lg: '1 1 50%' } }}>
             <ForumSidebar />
-          </div>
-
+          </Box>
+          
           {/* Right Sidebar - Trending Content */}
-          <div className="lg:col-span-2">
+          <Box sx={{ flex: { xs: '1 1 100%', lg: '1 1 50%' } }}>
             <TrendingContent />
-          </div>
-        </div>
-
+          </Box>
+        </Box>
+        
         {/* Additional Content Area */}
-        {children && <div className="mt-6">{children}</div>}
-      </div>
-
+        {children && (
+          <Box sx={{ mt: 3 }}>
+            {children}
+          </Box>
+        )}
+      </Container>
+      
       {/* Notification Banner */}
-      {showNotification && (
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
-          <div className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-3 max-w-lg">
-            <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
-              <span className="text-sm">📢</span>
-            </div>
-            <span className="text-sm flex-1">
+      <Snackbar
+        open={showNotification}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        sx={{
+          '& .MuiPaper-root': {
+            maxWidth: 'none',
+            bgcolor: theme.palette.primary.main,
+            color: 'white',
+            borderRadius: 2
+          }
+        }}
+      >
+        <Alert
+          severity="info"
+          icon={false}
+          sx={{
+            width: '100%',
+            bgcolor: 'inherit',
+            color: 'inherit',
+            '& .MuiAlert-message': {
+              width: '100%',
+              p: 0
+            }
+          }}
+        >
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <Box 
+              sx={{ 
+                width: 24, 
+                height: 24, 
+                borderRadius: '50%', 
+                bgcolor: 'primary.light',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Typography variant="caption">📢</Typography>
+            </Box>
+            <Typography sx={{ flexGrow: 1 }}>
               VOZ would like your permission to enable push notifications.
-            </span>
-            <div className="flex space-x-2">
-              <button
-                className="bg-blue-500 hover:bg-blue-400 px-3 py-1 rounded text-xs transition-colors"
+            </Typography>
+            <Stack direction="row" spacing={1}>
+              <Button 
+                size="small" 
+                variant="contained" 
+                color="primary"
                 onClick={() => setShowNotification(false)}
+                sx={{ bgcolor: 'primary.light' }}
               >
                 Allow
-              </button>
-              <button
-                className="bg-gray-500 hover:bg-gray-400 px-3 py-1 rounded text-xs transition-colors"
+              </Button>
+              <Button 
+                size="small" 
+                variant="contained" 
+                color="inherit"
                 onClick={() => setShowNotification(false)}
+                sx={{ bgcolor: 'grey.500', color: 'white' }}
               >
                 Block
-              </button>
-            </div>
-            <button
-              className="text-blue-200 hover:text-white p-1"
+              </Button>
+            </Stack>
+            <Button 
+              size="small" 
+              color="inherit"
               onClick={() => setShowNotification(false)}
+              sx={{ minWidth: 'auto', p: 0.5 }}
             >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
+              <CloseIcon fontSize="small" />
+            </Button>
+          </Stack>
+        </Alert>
+      </Snackbar>
+    </Box>
   );
 };
 
