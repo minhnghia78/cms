@@ -67,3 +67,41 @@ export default tseslint.config([
   },
 ])
 ```
+
+## Environment Variables
+
+The application uses environment variables for configuration. Create a `.env` file in the root directory based on `.env.example`:
+
+```bash
+# Copy the example environment file
+cp .env.example .env
+
+# Edit the file with your settings
+nano .env
+```
+
+### Available Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `VITE_API_BASE_URL` | Base URL for API requests | `http://localhost:8080/api` |
+| `VITE_AUTH_ENABLED` | Enable authentication features | `true` |
+| `VITE_AUTH_TOKEN_KEY` | Local storage key for auth token | `auth_token` |
+| `VITE_AUTH_REFRESH_KEY` | Local storage key for refresh token | `refresh_token` |
+| `VITE_APP_NAME` | Application name | `VOZ Forum` |
+| `VITE_APP_VERSION` | Application version | `1.0.0` |
+| `VITE_APP_ENVIRONMENT` | Environment (development, production) | `development` |
+| `VITE_FEATURE_DARK_MODE` | Enable dark mode feature | `true` |
+| `VITE_FEATURE_NOTIFICATIONS` | Enable notifications feature | `true` |
+
+### Accessing Environment Variables
+
+Use the environment utility in your components:
+
+```typescript
+import { env } from '../utils/env';
+
+// Access variables
+const apiUrl = env.apiBaseUrl;
+const isDarkModeEnabled = env.features.darkMode;
+```
