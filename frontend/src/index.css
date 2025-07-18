@@ -1,3 +1,16 @@
+/* Import Ant Design styles */
+@import 'antd/dist/reset.css';
+
+/* Global CSS variables */
+:root {
+  --main-color: hsla(214, 56%, 21%, 1);
+  --main-color-hover: hsla(214, 56%, 26%, 1);
+  --main-color-active: hsla(214, 56%, 16%, 1);
+  --main-color-light: hsla(214, 56%, 21%, 0.1);
+  --main-color-lighter: hsla(214, 56%, 21%, 0.05);
+  --accent-color: #f59e0b;
+}
+
 /* Base styles for the application */
 body {
   margin: 0;
@@ -19,6 +32,39 @@ a {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+/* Utility classes for main color */
+.text-main-color { color: var(--main-color); }
+.bg-main-color { background-color: var(--main-color); }
+.border-main-color { border-color: var(--main-color); }
+.hover-text-main-color:hover { color: var(--main-color-hover); }
+.hover-bg-main-color:hover { background-color: var(--main-color-hover); }
+
+/* Override Ant Design specific styles */
+/* Remove the bottom border from tabs */
+:where(.css-dev-only-do-not-override-6z5ruu).ant-tabs-top > .ant-tabs-nav::before {
+  border-bottom: none !important;
+}
+
+
+
+.header-tabs .ant-tabs-tab {
+  border: none !important;
+  background: transparent !important;
+}
+
+.header-tabs .ant-tabs-tab-active {
+  background-color: #f3f4f6 !important;
+}
+
+.header-tabs .ant-tabs-tab-btn {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.header-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: white !important;
+  font-weight: 500;
 }
 
 

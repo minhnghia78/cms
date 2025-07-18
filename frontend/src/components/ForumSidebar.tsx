@@ -1,26 +1,23 @@
 import React from 'react';
 import {
-  Box,
-  Paper,
+  Card,
   Typography,
   List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-  Stack
-} from '@mui/material';
+  Space,
+  Divider
+} from 'antd';
 import {
-  Chat as MessageIcon,
-  Group as UsersIcon,
-  HelpOutline as HelpIcon,
-  Computer as CpuIcon,
-  Monitor as MonitorIcon,
-  Smartphone as SmartphoneIcon,
-  SportsEsports as GamepadIcon,
-  Settings as SettingsIcon
-} from '@mui/icons-material';
+  MessageOutlined,
+  TeamOutlined,
+  QuestionCircleOutlined,
+  DesktopOutlined,
+  MonitorOutlined,
+  MobileOutlined,
+  PlayCircleOutlined,
+  SettingOutlined
+} from '@ant-design/icons';
+
+const { Title, Text } = Typography;
 
 interface ForumCategory {
   id: string;
@@ -36,7 +33,7 @@ const forumData: ForumCategory[] = [
   {
     id: 'announcements',
     name: 'Thông báo',
-    icon: <MessageIcon color="primary" />,
+    icon: <MessageOutlined style={{ color: '#1e3a8a' }} />,
     threads: '19',
     messages: '46',
     isSection: true
@@ -44,210 +41,200 @@ const forumData: ForumCategory[] = [
   {
     id: 'general',
     name: 'Góp ý',
-    icon: <HelpIcon color="warning" />,
+    icon: <QuestionCircleOutlined style={{ color: '#f59e0b' }} />,
     threads: '3.3K',
     messages: '68.4K',
     isSection: true
   },
   {
-    id: 'tech-news',
-    name: 'Tin tức iNet',
-    icon: <MonitorIcon color="primary" />,
-    threads: '1K+',
-    messages: '78.1K'
+    id: 'forum',
+    name: 'Việt Nam Cộng hoà',
+    icon: <TeamOutlined style={{ color: '#10b981' }} />,
+    threads: '1.2M',
+    messages: '51.8M',
+    isSection: false,
+    subcategories: [
+      {
+        id: 'politics',
+        name: 'Chính trị',
+        icon: <MessageOutlined style={{ color: '#6b7280' }} />,
+        threads: '823K',
+        messages: '43.2M'
+      },
+      {
+        id: 'economy',
+        name: 'Kinh tế',
+        icon: <MessageOutlined style={{ color: '#6b7280' }} />,
+        threads: '156K',
+        messages: '4.2M'
+      },
+      {
+        id: 'society',
+        name: 'Xã hội',
+        icon: <MessageOutlined style={{ color: '#6b7280' }} />,
+        threads: '234K',
+        messages: '4.4M'
+      }
+    ]
   },
   {
-    id: 'reviews',
-    name: 'Review sản phẩm',
-    icon: <SettingsIcon color="primary" />,
-    threads: '1K+',
-    messages: '149K'
+    id: 'technology',
+    name: 'Công nghệ',
+    icon: <DesktopOutlined style={{ color: '#3b82f6' }} />,
+    threads: '234K',
+    messages: '3.4M',
+    isSection: false,
+    subcategories: [
+      {
+        id: 'computers',
+        name: 'Máy tính',
+        icon: <MonitorOutlined style={{ color: '#6b7280' }} />,
+        threads: '123K',
+        messages: '1.8M'
+      },
+      {
+        id: 'mobile',
+        name: 'Di động',
+        icon: <MobileOutlined style={{ color: '#6b7280' }} />,
+        threads: '89K',
+        messages: '1.2M'
+      },
+      {
+        id: 'software',
+        name: 'Phần mềm',
+        icon: <SettingOutlined style={{ color: '#6b7280' }} />,
+        threads: '67K',
+        messages: '890K'
+      }
+    ]
   },
   {
-    id: 'sharing',
-    name: 'Chia sẻ kiến thức',
-    icon: <UsersIcon color="primary" />,
-    threads: '1K+',
-    messages: '127.2K'
+    id: 'games',
+    name: 'Giải trí',
+    icon: <PlayCircleOutlined style={{ color: '#ef4444' }} />,
+    threads: '567K',
+    messages: '12.3M',
+    isSection: false,
+    subcategories: [
+      {
+        id: 'pc-games',
+        name: 'Game PC',
+        icon: <PlayCircleOutlined style={{ color: '#6b7280' }} />,
+        threads: '234K',
+        messages: '5.6M'
+      },
+      {
+        id: 'mobile-games',
+        name: 'Game Mobile',
+        icon: <MobileOutlined style={{ color: '#6b7280' }} />,
+        threads: '178K',
+        messages: '3.2M'
+      },
+      {
+        id: 'console-games',
+        name: 'Game Console',
+        icon: <PlayCircleOutlined style={{ color: '#6b7280' }} />,
+        threads: '155K',
+        messages: '3.5M'
+      }
+    ]
   }
 ];
 
-const hardwareData: ForumCategory[] = [
-  {
-    id: 'hardware-section',
-    name: 'Máy tính',
-    icon: <CpuIcon color="warning" />,
-    threads: '',
-    messages: '',
-    isSection: true
-  },
-  {
-    id: 'consulting',
-    name: 'Tư vấn cấu hình',
-    icon: <HelpIcon color="warning" />,
-    threads: '5.6K',
-    messages: '58.5K'
-  },
-  {
-    id: 'overclocking',
-    name: 'Overclocking & Cooling & Modding',
-    icon: <CpuIcon color="warning" />,
-    threads: '2.1K',
-    messages: '55.4K'
-  },
-  {
-    id: 'amd',
-    name: 'AMD',
-    icon: <CpuIcon color="warning" />,
-    threads: '4.3K',
-    messages: '181.3K'
-  },
-  {
-    id: 'intel',
-    name: 'Intel',
-    icon: <CpuIcon color="warning" />,
-    threads: '2.9K',
-    messages: '89.1K'
-  },
-  {
-    id: 'gpu',
-    name: 'GPU & Màn hình',
-    icon: <MonitorIcon color="warning" />,
-    threads: '10K',
-    messages: '408.1K'
-  },
-  {
-    id: 'software',
-    name: 'Phần cứng chung',
-    icon: <SettingsIcon color="warning" />,
-    threads: '10.8K',
-    messages: '148.3K'
-  },
-  {
-    id: 'mobile',
-    name: 'Thiết bị ngoại vi & Phụ kiện & Mạng',
-    icon: <SmartphoneIcon color="warning" />,
-    threads: '8.8K',
-    messages: '469.7K'
-  }
-];
-
-interface ForumSidebarProps {
-  className?: string;
+interface CategoryItemProps {
+  category: ForumCategory;
+  isSubcategory?: boolean;
 }
 
-const ForumCategoryItem: React.FC<{ category: ForumCategory }> = ({ category }) => {
-  if (category.isSection) {
-    return (
-      <ListItem
-        sx={{
-          bgcolor: 'grey.100',
-          borderBottom: 1,
-          borderColor: 'grey.300',
-          py: 1.5
-        }}
-      >
-        <ListItemIcon sx={{ minWidth: 40 }}>
-          {category.icon}
-        </ListItemIcon>
-        <ListItemText
-          primary={category.name}
-          primaryTypographyProps={{ fontWeight: 'medium', color: 'text.primary' }}
-        />
-        {category.threads && (
-          <Box sx={{ display: 'flex', gap: 3 }}>
-            <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="body2" fontWeight="medium">{category.threads}</Typography>
-              <Typography variant="caption" color="text.secondary">Threads</Typography>
-            </Box>
-            <Box sx={{ textAlign: 'center' }}>
-              <Typography variant="body2" fontWeight="medium">{category.messages}</Typography>
-              <Typography variant="caption" color="text.secondary">Messages</Typography>
-            </Box>
-          </Box>
-        )}
-      </ListItem>
-    );
-  }
-
+const CategoryItem: React.FC<CategoryItemProps> = ({ category, isSubcategory = false }) => {
   return (
-    <ListItemButton
-      sx={{
-        borderBottom: 1,
-        borderColor: 'grey.100',
-        py: 1.5,
-        '&:hover': { bgcolor: 'grey.50' }
+    <List.Item
+      style={{
+        padding: isSubcategory ? '8px 16px 8px 48px' : '12px 16px',
+        cursor: 'pointer',
+        borderRadius: '8px',
+        margin: '4px 0',
+        transition: 'all 0.2s ease',
       }}
+      className="category-item"
     >
-      <ListItemIcon sx={{ minWidth: 40 }}>
-        {category.icon}
-      </ListItemIcon>
-      <ListItemText
-        primary={category.name}
-        primaryTypographyProps={{ color: 'text.primary' }}
+      <List.Item.Meta
+        avatar={category.icon}
+        title={
+          <Text 
+            strong={!isSubcategory}
+            style={{ 
+              color: isSubcategory ? '#6b7280' : '#111827',
+              fontSize: isSubcategory ? '14px' : '15px'
+            }}
+          >
+            {category.name}
+          </Text>
+        }
+        description={
+          <Space split={<Text type="secondary">•</Text>}>
+            <Text type="secondary" style={{ fontSize: '12px' }}>
+              {category.threads} threads
+            </Text>
+            <Text type="secondary" style={{ fontSize: '12px' }}>
+              {category.messages} messages
+            </Text>
+          </Space>
+        }
       />
-      <Stack direction="row" spacing={2} sx={{ ml: 1 }}>
-        <Box sx={{ minWidth: 50, textAlign: 'center' }}>
-          <Typography variant="body2" fontWeight="medium">{category.threads}</Typography>
-          <Typography variant="caption" color="text.secondary">Threads</Typography>
-        </Box>
-        <Box sx={{ minWidth: 60, textAlign: 'center' }}>
-          <Typography variant="body2" fontWeight="medium">{category.messages}</Typography>
-          <Typography variant="caption" color="text.secondary">Messages</Typography>
-        </Box>
-      </Stack>
-    </ListItemButton>
+    </List.Item>
   );
 };
 
-const ForumSidebar: React.FC<ForumSidebarProps> = ({ className = '' }) => {
+const ForumSidebar: React.FC = () => {
   return (
-    <Paper elevation={1} sx={{ overflow: 'hidden' }}>
-      {/* Daị sánh Section */}
-      <Box>
-        <Typography
-          variant="subtitle1"
-          sx={{
-            bgcolor: 'grey.200',
-            px: 2,
-            py: 1.5,
-            fontWeight: 'bold',
-            borderBottom: 1,
-            borderColor: 'grey.300'
-          }}
-        >
-          Daị sánh
-        </Typography>
-        <List disablePadding>
-          {forumData.map((category) => (
-            <ForumCategoryItem key={category.id} category={category} />
-          ))}
-        </List>
-      </Box>
-
-      {/* Máy tính Section */}
-      <Box>
-        <Typography
-          variant="subtitle1"
-          sx={{
-            bgcolor: 'grey.200',
-            px: 2,
-            py: 1.5,
-            fontWeight: 'bold',
-            borderBottom: 1,
-            borderTop: 1,
-            borderColor: 'grey.300'
-          }}
-        >
-          Máy tính
-        </Typography>
-        <List disablePadding>
-          {hardwareData.map((category) => (
-            <ForumCategoryItem key={category.id} category={category} />
-          ))}
-        </List>
-      </Box>
-    </Paper>
+    <Card 
+      title={
+        <Title level={4} style={{ margin: 0, color: '#111827' }}>
+          Forum Categories
+        </Title>
+      }
+      style={{ 
+        height: 'fit-content',
+        borderRadius: '12px',
+        boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+      }}
+    >
+      <style>
+        {`
+          .category-item:hover {
+            background-color: #f3f4f6 !important;
+          }
+          .ant-list-item {
+            border-bottom: none !important;
+          }
+        `}
+      </style>
+      
+      <List
+        dataSource={forumData}
+        split={false}
+        renderItem={(category) => (
+          <div key={category.id}>
+            <CategoryItem category={category} />
+            
+            {category.subcategories && (
+              <>
+                <Divider style={{ margin: '8px 0' }} />
+                {category.subcategories.map((subcat) => (
+                  <CategoryItem 
+                    key={subcat.id} 
+                    category={subcat} 
+                    isSubcategory={true} 
+                  />
+                ))}
+                <Divider style={{ margin: '16px 0' }} />
+              </>
+            )}
+          </div>
+        )}
+      />
+    </Card>
   );
 };
 

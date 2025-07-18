@@ -1,15 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { ThemeProvider, CssBaseline } from '@mui/material';
-import theme from './theme';
-import App from './App';
-import './index.css';
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import { ConfigProvider } from 'antd';
+import antdTheme from './theme';
+import './index.css'
+import App from './App.tsx'
+import { initializeStore } from './store'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+// Initialize store on app startup
+initializeStore()
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <ConfigProvider theme={antdTheme}>
       <App />
-    </ThemeProvider>
-  </React.StrictMode>
-);
+    </ConfigProvider>
+  </StrictMode>,
+)

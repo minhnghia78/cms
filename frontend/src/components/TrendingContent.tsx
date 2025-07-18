@@ -1,22 +1,22 @@
 import React from 'react';
 import { 
-  Box, 
-  Paper, 
+  Card, 
   Typography, 
   List, 
-  ListItem, 
-  ListItemAvatar, 
-  ListItemText, 
   Avatar, 
   Button,
-  Stack,
-  Divider
-} from '@mui/material';
+  Space,
+  Divider,
+  Tag
+} from 'antd';
 import {
-  Chat as MessageIcon,
-  Visibility as EyeIcon,
-  LocalFireDepartment as FireIcon
-} from '@mui/icons-material';
+  MessageOutlined,
+  EyeOutlined,
+  FireOutlined,
+  RightOutlined
+} from '@ant-design/icons';
+
+const { Title, Text, Paragraph } = Typography;
 
 interface TrendingPost {
   id: string;
@@ -50,161 +50,213 @@ const trendingPosts: TrendingPost[] = [
   },
   {
     id: '3',
-    title: 'Arsenal FC Official VOZ: Mùa giải 2025-2026: Keep the Faith, Gunners!',
-    author: 'Karina (aespa)',
-    replies: 7000,
-    views: '27K',
-    timestamp: 'May 27, 2025',
-    category: 'Sports'
+    title: 'Tips chơi game mobile hay nhất 2025',
+    author: 'GameMaster2025',
+    replies: 2500,
+    views: '8.5K',
+    timestamp: 'Jan 10, 2025',
+    category: 'Gaming'
   },
   {
     id: '4',
-    title: 'Anh em ở Nhật vào tâm sự nhi',
-    author: 'Cau_thu_',
-    replies: 73000,
-    views: '21K',
-    timestamp: 'Feb 21, 2022',
-    category: 'Life'
+    title: 'Hướng dẫn build PC gaming tốt nhất với ngân sách 30 triệu',
+    author: 'PCBuilder Pro',
+    replies: 1200,
+    views: '12K',
+    timestamp: 'Jan 8, 2025',
+    category: 'Technology'
   },
   {
     id: '5',
-    title: 'TP.HCM: Cháy cứ xử ở phường Phú Thọ Hoà, 8 người tử vong',
-    author: 'Tí Một Phết Bọ',
-    replies: 0,
-    views: '02M',
-    timestamp: 'Monday at 7:02 AM',
-    category: 'News'
+    title: 'Review iPhone 16 Pro Max sau 6 tháng sử dụng',
+    author: 'TechReviewer',
+    replies: 890,
+    views: '5.2K',
+    timestamp: 'Jan 5, 2025',
+    category: 'Technology'
   }
 ];
 
-const getAvatarColor = (name: string) => {
-  const colors = [
-    'primary.main',
-    'success.main', 
-    'secondary.main',
-    'error.main',
-    'warning.main',
-    'info.main',
-    'purple',
-    'teal'
-  ];
-  
-  const index = name.charCodeAt(0) % colors.length;
-  return colors[index];
+const onlineUsers = [
+  { id: '1', name: 'Admin', avatar: '👤', status: 'online' },
+  { id: '2', name: 'Moderator1', avatar: '👤', status: 'online' },
+  { id: '3', name: 'TechGuru', avatar: '👤', status: 'online' },
+  { id: '4', name: 'GameFan', avatar: '👤', status: 'online' },
+  { id: '5', name: 'NewUser123', avatar: '👤', status: 'online' },
+];
+
+const categoryColors: Record<string, string> = {
+  'Gaming': '#ef4444',
+  'Finance': '#10b981',
+  'Technology': '#3b82f6',
 };
 
 const TrendingContent: React.FC = () => {
   return (
-    <Paper elevation={1}>
-      <Box sx={{ 
-        px: 2, 
-        py: 1.5, 
-        bgcolor: 'grey.100', 
-        borderBottom: 1, 
-        borderColor: 'grey.300',
-        borderTopLeftRadius: 'inherit',
-        borderTopRightRadius: 'inherit',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 1
-      }}>
-        <FireIcon color="error" fontSize="small" />
-        <Typography variant="subtitle1" fontWeight="bold" color="text.primary">
-          Trending content
-        </Typography>
-      </Box>
-      
-      <List disablePadding sx={{ 
-        '& .MuiListItem-root': { 
-          px: 2, 
-          py: 2,
-          '&:hover': { bgcolor: 'grey.50' },
-          cursor: 'pointer'
-        } 
-      }}>
-        {trendingPosts.map((post, index) => (
-          <React.Fragment key={post.id}>
-            {index > 0 && <Divider variant="inset" component="li" />}
-            <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar sx={{ bgcolor: getAvatarColor(post.author) }}>
-                  {post.author.charAt(0).toUpperCase()}
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <Typography 
-                    variant="body2" 
-                    fontWeight="medium" 
-                    color="text.primary"
-                    sx={{
-                      display: '-webkit-box',
-                      overflow: 'hidden',
-                      WebkitBoxOrient: 'vertical',
-                      WebkitLineClamp: 2,
-                      '&:hover': { color: 'primary.main' }
+    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      {/* Trending Posts Section */}
+      <Card 
+        title={
+          <Space>
+            <FireOutlined style={{ color: '#ef4444' }} />
+            <Title level={4} style={{ margin: 0, color: '#111827' }}>
+              Trending Posts
+            </Title>
+          </Space>
+        }
+        extra={
+          <Button type="link" size="small">
+            View All <RightOutlined />
+          </Button>
+        }
+        style={{ 
+          borderRadius: '12px',
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+        }}
+      >
+        <List
+          dataSource={trendingPosts}
+          split={false}
+          renderItem={(post, index) => (
+            <List.Item
+              style={{
+                padding: '12px 0',
+                cursor: 'pointer',
+                borderRadius: '8px',
+                marginBottom: '8px',
+                transition: 'all 0.2s ease',
+              }}
+              className="trending-item"
+            >
+              <List.Item.Meta
+                avatar={
+                  <Avatar 
+                    style={{ 
+                      backgroundColor: '#1e3a8a',
+                      color: 'white'
                     }}
                   >
-                    {post.title}
-                  </Typography>
+                    {post.author.charAt(0).toUpperCase()}
+                  </Avatar>
                 }
-                secondary={
-                  <Box sx={{ mt: 1 }}>
-                    <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 0.5 }}>
-                      <Typography variant="body2" fontWeight="medium" color="text.primary">
-                        {post.author}
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        •
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        {post.timestamp}
-                      </Typography>
-                    </Stack>
-                    
-                    <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
-                      <Stack direction="row" alignItems="center" spacing={0.5}>
-                        <MessageIcon fontSize="inherit" color="action" />
-                        <Typography variant="caption" color="text.secondary">
-                          Replies: {post.replies.toLocaleString()}
-                        </Typography>
-                      </Stack>
-                      <Stack direction="row" alignItems="center" spacing={0.5}>
-                        <EyeIcon fontSize="inherit" color="action" />
-                        <Typography variant="caption" color="text.secondary">
-                          {post.views}
-                        </Typography>
-                      </Stack>
-                    </Stack>
-                  </Box>
+                title={
+                  <div>
+                    <Paragraph 
+                      ellipsis={{ rows: 2, expandable: false }}
+                      style={{ 
+                        margin: 0,
+                        fontWeight: 500,
+                        color: '#111827',
+                        fontSize: '14px',
+                        lineHeight: '1.4'
+                      }}
+                    >
+                      {post.title}
+                    </Paragraph>
+                    <Space size="small" style={{ marginTop: '4px' }}>
+                      {post.category && (
+                        <Tag 
+                          color={categoryColors[post.category] || '#6b7280'}
+                          style={{ fontSize: '11px', margin: 0 }}
+                        >
+                          {post.category}
+                        </Tag>
+                      )}
+                    </Space>
+                  </div>
+                }
+                description={
+                  <Space split={<Text type="secondary">•</Text>} size="small">
+                    <Text type="secondary" style={{ fontSize: '12px' }}>
+                      by {post.author}
+                    </Text>
+                    <Space size="small">
+                      <MessageOutlined style={{ fontSize: '11px' }} />
+                      <Text type="secondary" style={{ fontSize: '12px' }}>
+                        {post.replies.toLocaleString()}
+                      </Text>
+                    </Space>
+                    <Space size="small">
+                      <EyeOutlined style={{ fontSize: '11px' }} />
+                      <Text type="secondary" style={{ fontSize: '12px' }}>
+                        {post.views}
+                      </Text>
+                    </Space>
+                    <Text type="secondary" style={{ fontSize: '12px' }}>
+                      {post.timestamp}
+                    </Text>
+                  </Space>
                 }
               />
-            </ListItem>
-          </React.Fragment>
-        ))}
-      </List>
-      
-      <Box sx={{ 
-        p: 2, 
-        borderTop: 1, 
-        borderColor: 'grey.200', 
-        bgcolor: 'grey.50',
-        borderBottomLeftRadius: 'inherit',
-        borderBottomRightRadius: 'inherit'
-      }}>
-        <Button 
-          color="primary" 
-          size="small" 
-          sx={{ 
-            fontSize: '0.875rem', 
-            fontWeight: 'medium',
-            '&:hover': { bgcolor: 'transparent' } 
-          }}
-        >
-          View all trending content →
-        </Button>
-      </Box>
-    </Paper>
+            </List.Item>
+          )}
+        />
+      </Card>
+
+      {/* Online Users Section */}
+      <Card 
+        title={
+          <Space>
+            <div 
+              style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                backgroundColor: '#10b981',
+                animation: 'pulse 2s infinite'
+              }}
+            />
+            <Title level={4} style={{ margin: 0, color: '#111827' }}>
+              Online Users ({onlineUsers.length})
+            </Title>
+          </Space>
+        }
+        size="small"
+        style={{ 
+          borderRadius: '12px',
+          boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)'
+        }}
+      >
+        <style>
+          {`
+            @keyframes pulse {
+              0%, 100% { opacity: 1; }
+              50% { opacity: 0.5; }
+            }
+            .trending-item:hover {
+              background-color: #f3f4f6 !important;
+              padding-left: 8px !important;
+              padding-right: 8px !important;
+            }
+          `}
+        </style>
+        
+        <Space wrap size="small">
+          {onlineUsers.map((user) => (
+            <Space key={user.id} size="small">
+              <Avatar 
+                size="small" 
+                style={{ 
+                  backgroundColor: '#f59e0b',
+                  fontSize: '10px'
+                }}
+              >
+                {user.name.charAt(0).toUpperCase()}
+              </Avatar>
+              <Text style={{ fontSize: '12px' }}>{user.name}</Text>
+            </Space>
+          ))}
+        </Space>
+        
+        <Divider style={{ margin: '12px 0' }} />
+        
+        <div style={{ textAlign: 'center' }}>
+          <Text type="secondary" style={{ fontSize: '12px' }}>
+            Total members: 1,234,567 • New today: 42
+          </Text>
+        </div>
+      </Card>
+    </Space>
   );
 };
 

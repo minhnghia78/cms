@@ -1,29 +1,31 @@
-import React from 'react';
-import { 
-  AppBar, 
-  Toolbar, 
-  Typography, 
-  Box, 
-  InputBase, 
-  Badge, 
-  Avatar, 
-  Button, 
-  IconButton, 
-  Chip,
-  Container,
-  useMediaQuery,
-  styled,
-  alpha,
-  useTheme
-} from '@mui/material';
-import { 
-  Search as SearchIcon, 
-  Notifications as NotificationsIcon, 
-  Chat as ChatIcon,
-  Person as PersonIcon
-} from '@mui/icons-material';
-import Logo from './Logo';
-import logo from '../assets/voz-logo.png';
+import React from "react";
+import {
+  Layout,
+  Typography,
+  Input,
+  Badge,
+  Avatar,
+  Button,
+  Space,
+  Row,
+  Col,
+  Flex,
+  TabsProps,
+  Tabs,
+} from "antd";
+import {
+  SearchOutlined,
+  BellOutlined,
+  MessageOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import Logo from "./Logo";
+import logo from "../assets/voz-logo.png";
+
+const { Header: AntHeader } = Layout;
+const { Title } = Typography;
+const { Search } = Input;
+
 interface HeaderProps {
   user?: {
     name: string;
@@ -31,142 +33,136 @@ interface HeaderProps {
   };
 }
 
-// Styled components
-const SearchWrapper = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
-
-const NavButton = styled(Button)(({ theme }) => ({
-  color: theme.palette.grey[300],
-  '&:hover': {
-    color: theme.palette.common.white,
-  },
-  '&.active': {
-    color: theme.palette.primary.light,
-    borderBottom: `2px solid ${theme.palette.primary.main}`,
-  },
-}));
-
 const Header: React.FC<HeaderProps> = ({ user }) => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const handleSearch = (value: string) => {
+    console.log("Search:", value);
+  };
+
+  const items: TabsProps["items"] = [
+    {
+      key: "1",
+      label: "Forums",
+    },
+    {
+      key: "2",
+      label: "Latest",
+    },
+  ];
 
   return (
-    <AppBar position="static" color="primary" sx={{ boxShadow: 3 }}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          {/* Logo */}
-          <Box sx={{ display: 'flex', alignItems: 'center', mr: 3 }}>
-            <Logo imgUrl={logo} />
-            
-          </Box>
-          
-          {/* Navigation */}
-          {!isMobile && (
-            <Box sx={{ display: 'flex', flexGrow: 1 }}>
-              <NavButton className="active">
-                Forums
-              </NavButton>
-              <NavButton>
-                Latest
-              </NavButton>
-              
-            </Box>
-          )}
+    <Flex vertical style={{ backgroundColor: "var(--main-color)" }}>
+      <Flex align="center" gap={16}>
+        <Logo imgUrl={logo} />
+      </Flex>
+      <Flex align="space-between" style={{ height: "100%", padding: "0 64px" }}>
+        <Col style={{ marginLeft: "24px" }}>
+          <Tabs items={items} type="card" className="header-tabs" />
+        </Col>
+        {/* Center section - Search */}
+        <Col style={{ maxWidth: "500px", marginLeft: "24px" }}>
+          <Search
+            placeholder="Search forums..."
+            allowClear
+            onSearch={handleSearch}
+            style={{
+              maxWidth: "100%",
+            }}
+            styles={{
+              input: {
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                borderColor: "rgba(255, 255, 255, 0.2)",
+                color: "white",
+              },
+            }}
+          />
+        </Col>
 
-          {/* Search and User Menu */}
-          <Box sx={{ display: 'flex', alignItems: 'center', ml: 'auto' }}>
-            {!isMobile && (
-              <SearchWrapper>
-                <SearchIconWrapper>
-                  <SearchIcon fontSize="small" />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
-                />
-              </SearchWrapper>
-            )}
+        {/* Right section - User actions */}
+        <Col>
+          <Space size="middle" align="center">
+            {/* Messages */}
+            <Badge count={3} size="small">
+              <Button
+                type="text"
+                shape="circle"
+                icon={
+                  <MessageOutlined
+                    style={{ color: "white", fontSize: "18px" }}
+                  />
+                }
+                style={{
+                  border: "none",
+                  background: "transparent",
+                }}
+              />
+            </Badge>
 
+            {/* Notifications */}
+            <Badge count={5} size="small">
+              <Button
+                type="text"
+                shape="circle"
+                icon={
+                  <BellOutlined style={{ color: "white", fontSize: "18px" }} />
+                }
+                style={{
+                  border: "none",
+                  background: "transparent",
+                }}
+              />
+            </Badge>
+
+            {/* User menu */}
             {user ? (
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <IconButton color="inherit" size="small" sx={{ position: 'relative' }}>
-                  <Badge badgeContent={3} color="error">
-                    <NotificationsIcon fontSize="small" />
-                  </Badge>
-                </IconButton>
-                <IconButton color="inherit" size="small" sx={{ mx: 1 }}>
-                  <ChatIcon fontSize="small" />
-                </IconButton>
-                <Chip
-                  avatar={
-                    user.avatar ? (
-                      <Avatar alt={user.name} src={user.avatar} />
-                    ) : (
-                      <Avatar sx={{ bgcolor: 'primary.light' }}>
-                        {user.name.charAt(0).toUpperCase()}
-                      </Avatar>
-                    )
-                  }
-                  label={user.name}
-                  variant="filled"
-                  sx={{ 
-                    bgcolor: 'rgba(255,255,255,0.1)', 
-                    color: 'white',
-                    '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' },
-                    cursor: 'pointer'
+              <Space align="center">
+                <Avatar
+                  src={user.avatar}
+                  icon={<UserOutlined />}
+                  size="default"
+                  style={{
+                    backgroundColor: "#f59e0b",
+                    border: "2px solid rgba(255, 255, 255, 0.3)",
                   }}
                 />
-              </Box>
+                <Typography.Text
+                  style={{
+                    color: "white",
+                    fontWeight: 500,
+                    marginLeft: "8px",
+                  }}
+                >
+                  {user.name}
+                </Typography.Text>
+              </Space>
             ) : (
-              <Button 
-                variant="contained" 
-                color="secondary"
-                startIcon={<PersonIcon />}
-                size="small"
-              >
-                Sign In
-              </Button>
+              <Space>
+                <Button
+                  type="default"
+                  size="small"
+                  style={{
+                    color: "white",
+                    borderColor: "rgba(255, 255, 255, 0.5)",
+                    backgroundColor: "transparent",
+                  }}
+                >
+                  Login
+                </Button>
+                <Button
+                  type="primary"
+                  size="small"
+                  style={{
+                    backgroundColor: "#f59e0b",
+                    borderColor: "#f59e0b",
+                  }}
+                >
+                  Register
+                </Button>
+              </Space>
             )}
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+          </Space>
+        </Col>
+      </Flex>
+    </Flex>
   );
 };
 

@@ -1,18 +1,25 @@
 import React from "react";
 import type { LogoProps } from "./logo.type";
-import { Stack, styled } from "@mui/material";
-
-const LogoContainer = styled(Stack)(({ theme }) => ({
-  display: 'flex',
-  height: '50%',
-  padding: theme.spacing(0.75)
-}));
+import { Space } from "antd";
 
 const Logo = ({ imgUrl }: LogoProps) => {
   return (
-    <LogoContainer direction="row">
-      <img src={imgUrl} alt="Logo" />
-    </LogoContainer>
+    <Space 
+      style={{
+        display: 'flex',
+        height: '40px',
+        padding: '6px'
+      }}
+    >
+      <img 
+        src={imgUrl} 
+        alt="Logo" 
+        style={{
+          height: '100%',
+          width: 'auto'
+        }}
+      />
+    </Space>
   );
 };
 

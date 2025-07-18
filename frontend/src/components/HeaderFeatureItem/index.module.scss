@@ -1,0 +1,13 @@
+.headerFeatureLink {
+  color: #1e40af !important;
+  padding: 8px 12px;
+  font-size: 0.95rem;
+  font-weight: normal;
+  display: inline-block;
+  transition: all 0.2s ease;
+
+  &:hover {
+    color: #f59e0b !important;
+    text-decoration: underline !important;
+  }
+} 

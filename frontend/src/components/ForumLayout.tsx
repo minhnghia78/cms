@@ -1,28 +1,30 @@
 import React, { useState } from 'react';
 import { 
-  Box, 
-  Container, 
-  Snackbar, 
-  Alert, 
-  Button, 
-  Stack,
+  Layout,
+  Row,
+  Col,
+  notification,
+  Button,
+  Space,
   Typography,
-  useTheme
-} from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
+  Card
+} from 'antd';
+import { CloseOutlined, SoundOutlined } from '@ant-design/icons';
 import Header from './Header';
 import ForumSidebar from './ForumSidebar';
 import TrendingContent from './TrendingContent';
 import { HeaderFeatureItemProps } from './HeaderFeatureItem/feature.type';
 import HeaderFeatures from './HeaderFeatures';
 
+const { Content } = Layout;
+
 interface ForumLayoutProps {
   children?: React.ReactNode;
 }
 
 const ForumLayout: React.FC<ForumLayoutProps> = ({ children }) => {
-  const theme = useTheme();
   const [showNotification, setShowNotification] = useState(true);
+  const [api, contextHolder] = notification.useNotification();
 
   // Mock user data - replace with actual auth context later
   const mockUser = {
@@ -57,109 +59,84 @@ const ForumLayout: React.FC<ForumLayoutProps> = ({ children }) => {
     },
   ];
 
-  return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'grey.100' }}>
-      {/* Header */}
-      <Header user={mockUser} />
-      <HeaderFeatures items={featureHeaderItem} />
-      
-      {/* Main Content Area */}
-      <Container maxWidth="xl" sx={{ py: 3 }}>
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, gap: 3 }}>
-          {/* Left Sidebar - Forum Categories */}
-          <Box sx={{ flex: { xs: '1 1 100%', lg: '1 1 50%' } }}>
-            <ForumSidebar />
-          </Box>
-          
-          {/* Right Sidebar - Trending Content */}
-          <Box sx={{ flex: { xs: '1 1 100%', lg: '1 1 50%' } }}>
-            <TrendingContent />
-          </Box>
-        </Box>
-        
-        {/* Additional Content Area */}
-        {children && (
-          <Box sx={{ mt: 3 }}>
-            {children}
-          </Box>
-        )}
-      </Container>
-      
-      {/* Notification Banner */}
-      <Snackbar
-        open={showNotification}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        sx={{
-          '& .MuiPaper-root': {
-            maxWidth: 'none',
-            bgcolor: theme.palette.primary.main,
-            color: 'white',
-            borderRadius: 2
-          }
-        }}
-      >
-        <Alert
-          severity="info"
-          icon={false}
-          sx={{
-            width: '100%',
-            bgcolor: 'inherit',
-            color: 'inherit',
-            '& .MuiAlert-message': {
-              width: '100%',
-              p: 0
-            }
+  const openNotification = () => {
+    const key = `open${Date.now()}`;
+    const btn = (
+      <Space>
+        <Button 
+          type="primary" 
+          size="small" 
+          onClick={() => {
+            api.destroy(key);
+            setShowNotification(false);
           }}
         >
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Box 
-              sx={{ 
-                width: 24, 
-                height: 24, 
-                borderRadius: '50%', 
-                bgcolor: 'primary.light',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <Typography variant="caption">📢</Typography>
-            </Box>
-            <Typography sx={{ flexGrow: 1 }}>
-              VOZ would like your permission to enable push notifications.
-            </Typography>
-            <Stack direction="row" spacing={1}>
-              <Button 
-                size="small" 
-                variant="contained" 
-                color="primary"
-                onClick={() => setShowNotification(false)}
-                sx={{ bgcolor: 'primary.light' }}
-              >
-                Allow
-              </Button>
-              <Button 
-                size="small" 
-                variant="contained" 
-                color="inherit"
-                onClick={() => setShowNotification(false)}
-                sx={{ bgcolor: 'grey.500', color: 'white' }}
-              >
-                Block
-              </Button>
-            </Stack>
-            <Button 
-              size="small" 
-              color="inherit"
-              onClick={() => setShowNotification(false)}
-              sx={{ minWidth: 'auto', p: 0.5 }}
-            >
-              <CloseIcon fontSize="small" />
-            </Button>
-          </Stack>
-        </Alert>
-      </Snackbar>
-    </Box>
+          Allow
+        </Button>
+        <Button 
+          size="small" 
+          onClick={() => {
+            api.destroy(key);
+            setShowNotification(false);
+          }}
+        >
+          Block
+        </Button>
+      </Space>
+    );
+    
+    api.info({
+      message: 'Push Notifications',
+      description: 'VOZ would like your permission to enable push notifications.',
+      btn,
+      key,
+      icon: <SoundOutlined style={{ color: '#1e3a8a' }} />,
+      duration: 0,
+      placement: 'bottomRight',
+      style: {
+        width: 400,
+      },
+    });
+  };
+
+  React.useEffect(() => {
+    if (showNotification) {
+      setTimeout(() => {
+        openNotification();
+      }, 2000);
+    }
+  }, [showNotification]);
+
+  return (
+    <Layout style={{ minHeight: '100vh'}}>
+      {/* Header */}
+        <Header user={mockUser} />
+        <HeaderFeatures items={featureHeaderItem} />
+      
+      {/* Main Content Area */}
+      <Content style={{ padding: '24px', backgroundColor: '#f3f4f6' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <Row gutter={[24, 24]}>
+            {/* Left Sidebar - Forum Categories */}
+            <Col xs={24} lg={12}>
+              <ForumSidebar />
+            </Col>
+            
+            {/* Right Sidebar - Trending Content */}
+            <Col xs={24} lg={12}>
+              <TrendingContent />
+            </Col>
+          </Row>
+          
+          {/* Additional Content Area */}
+          {children && (
+            <Card style={{ marginTop: '24px' }}>
+              {children}
+            </Card>
+          )}
+        </div>
+      </Content>
+    </Layout>
   );
 };
 

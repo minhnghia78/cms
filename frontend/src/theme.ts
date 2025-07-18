@@ -1,142 +1,124 @@
-import { createTheme } from '@mui/material/styles';
+import { theme } from 'antd';
+import type { ThemeConfig } from 'antd';
 
-// Create a theme instance
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1e3a8a', // Deep blue for primary color (similar to the VOZ forum)
-      light: '#2563eb',
-      dark: '#1e40af',
-      contrastText: '#ffffff',
-    },
-    secondary: {
-      main: '#f59e0b', // Amber for secondary color
-      light: '#fbbf24',
-      dark: '#d97706',
-      contrastText: '#ffffff',
-    },
-    error: {
-      main: '#ef4444',
-    },
-    warning: {
-      main: '#f59e0b',
-    },
-    info: {
-      main: '#3b82f6',
-    },
-    success: {
-      main: '#10b981',
-    },
-    background: {
-      default: '#f3f4f6',
-      paper: '#ffffff',
-    },
-    text: {
-      primary: '#111827',
-      secondary: '#4b5563',
-    },
-    grey: {
-      50: '#f9fafb',
-      100: '#f3f4f6',
-      200: '#e5e7eb',
-      300: '#d1d5db',
-      400: '#9ca3af',
-      500: '#6b7280',
-      600: '#4b5563',
-      700: '#374151',
-      800: '#1f2937',
-      900: '#111827',
-    },
-  },
-  typography: {
-    fontFamily: [
-      'Inter',
-      '-apple-system',
-      'BlinkMacSystemFont',
-      '"Segoe UI"',
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif',
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(','),
-    h1: {
-      fontWeight: 700,
-    },
-    h2: {
-      fontWeight: 700,
-    },
-    h3: {
-      fontWeight: 600,
-    },
-    h4: {
-      fontWeight: 600,
-    },
-    h5: {
-      fontWeight: 600,
-    },
-    h6: {
-      fontWeight: 600,
-    },
-    subtitle1: {
-      fontWeight: 500,
-    },
-    subtitle2: {
-      fontWeight: 500,
-    },
-    body1: {
-      fontSize: '1rem',
-    },
-    body2: {
-      fontSize: '0.875rem',
-    },
-    button: {
-      textTransform: 'none',
-      fontWeight: 500,
-    },
-  },
-  shape: {
-    borderRadius: 6,
+const mainColor = 'hsla(214, 56%, 21%, 1)';
+const mainColorHover = 'hsla(214, 56%, 26%, 1)';
+const mainColorActive = 'hsla(214, 56%, 16%, 1)';
+// Ant Design theme configuration based on the previous MUI VOZ forum theme
+const antdTheme: ThemeConfig = {
+  algorithm: theme.defaultAlgorithm,
+  token: {
+    // Primary colors (Deep blue from previous MUI theme)
+    colorPrimary: mainColor,
+    colorPrimaryHover: mainColorHover,
+    colorPrimaryActive: mainColorActive,
+    
+    // Secondary/accent colors (Amber from previous MUI theme)
+    colorInfo: '#f59e0b',
+    colorInfoHover: '#fbbf24',
+    colorInfoActive: '#d97706',
+    
+    // Status colors
+    colorSuccess: '#10b981',
+    colorWarning: '#f59e0b',
+    colorError: '#ef4444',
+    
+    // Background colors
+    colorBgBase: '#ffffff',
+    colorBgContainer: '#ffffff',
+    colorBgElevated: '#ffffff',
+    colorBgLayout: '#f3f4f6',
+    colorBgSpotlight: '#f9fafb',
+    
+    // Text colors
+    colorText: '#111827',
+    colorTextSecondary: '#4b5563',
+    colorTextTertiary: '#6b7280',
+    colorTextQuaternary: '#9ca3af',
+    
+    // Border colors
+    colorBorder: '#e5e7eb',
+    colorBorderSecondary: '#d1d5db',
+    
+    // Font settings
+    fontFamily: '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+    fontSize: 14,
+    fontSizeHeading1: 38,
+    fontSizeHeading2: 30,
+    fontSizeHeading3: 24,
+    fontSizeHeading4: 20,
+    fontSizeHeading5: 16,
+    
+    // Layout
+    borderRadius: 8,
+    borderRadiusLG: 12,
+    borderRadiusSM: 6,
+    borderRadiusXS: 4,
+    
+    // Spacing
+    padding: 16,
+    paddingLG: 24,
+    paddingSM: 12,
+    paddingXS: 8,
+    paddingXXS: 4,
+    
+    margin: 16,
+    marginLG: 24,
+    marginSM: 12,
+    marginXS: 8,
+    marginXXS: 4,
+    
+    // Box shadow
+    boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+    boxShadowSecondary: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+    boxShadowTertiary: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+    
+    // Layout breakpoints
+    screenXS: 480,
+    screenSM: 576,
+    screenMD: 768,
+    screenLG: 992,
+    screenXL: 1200,
+    screenXXL: 1600,
   },
   components: {
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-        },
-      },
+    Layout: {
+      headerBg: mainColor,
+      headerColor: '#ffffff',
+      siderBg: '#ffffff',
+      bodyBg: '#f3f4f6',
     },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 6,
-          padding: '6px 16px',
-        },
-        containedPrimary: {
-          '&:hover': {
-            backgroundColor: '#1e40af',
-          },
-        },
-      },
+    Menu: {
+      itemBg: 'transparent',
+      itemColor: '#4b5563',
+      itemHoverColor: mainColor,
+      itemSelectedColor: mainColor,
+      itemSelectedBg: '#eff6ff',
     },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          borderRadius: 8,
-        },
-      },
+    Button: {
+      primaryColor: '#ffffff',
+      primaryShadow: '0 2px 0 rgba(5, 145, 255, 0.1)',
+      dangerShadow: '0 2px 0 rgba(255, 38, 5, 0.06)',
     },
-    MuiListItem: {
-      styleOverrides: {
-        root: {
-          paddingTop: 10,
-          paddingBottom: 10,
-        },
-      },
+    Input: {
+      borderRadius: 8,
+    },
+    Card: {
+      borderRadius: 12,
+      boxShadowTertiary: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+    },
+    Avatar: {
+      borderRadius: 50,
+    },
+    Badge: {
+      colorError: '#ef4444',
+      colorSuccess: '#10b981',
+    },
+    Typography: {
+      colorText: '#111827',
+      colorTextSecondary: '#4b5563',
     },
   },
-});
+};
 
-export default theme; 
+export default antdTheme; 

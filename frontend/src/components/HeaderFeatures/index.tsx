@@ -1,42 +1,39 @@
 import React from "react";
 import HeaderFeatureItem from "../HeaderFeatureItem";
 import { HeaderFeaturesProps } from "./features.type";
-import { Stack, Box, styled } from "@mui/material";
+import { Space, Layout, Flex } from "antd";
 
-const FeatureContainer = styled(Stack)(({ theme }) => ({
-  backgroundColor: theme.palette.grey[200],
-  borderBottom: `1px solid ${theme.palette.grey[400]}`
-}));
-
-const InnerContainer = styled(Stack)(({ theme }) => ({
-  maxWidth: theme.breakpoints.values.xl,
-  margin: '0 auto',
-  padding: theme.spacing(0, 2),
-  paddingTop: theme.spacing(0.75),
-  paddingBottom: theme.spacing(0.75),
-  [theme.breakpoints.up('sm')]: {
-    paddingLeft: theme.spacing(3),
-    paddingRight: theme.spacing(3),
-  },
-  [theme.breakpoints.up('lg')]: {
-    paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(4),
-  }
-}));
+const { Header } = Layout;
 
 const HeaderFeatures = ({ items }: HeaderFeaturesProps) => {
   return (
-    <FeatureContainer direction="row">
-      <InnerContainer direction="row" spacing={1}>
-        {items.map((item) => (
-          <HeaderFeatureItem
-            key={item.key}
-            featureUrl={item.featureUrl}
-            label={item.label}
-          />
-        ))}
-      </InnerContainer>
-    </FeatureContainer>
+    <Flex
+      vertical
+      style={{
+        backgroundColor: '#e5e7eb',
+        borderBottom: '1px solid #d1d5db',
+        padding: '6px 0'
+      }}
+    >
+      <Flex
+        justify="flex-start"
+        style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          width: '100%'
+        }}
+      >
+        <Space size="small" wrap>
+          {items.map((item) => (
+            <HeaderFeatureItem
+              key={item.key}
+              featureUrl={item.featureUrl}
+              label={item.label}
+            />
+          ))}
+        </Space>
+      </Flex>
+    </Flex>
   );
 };
 
