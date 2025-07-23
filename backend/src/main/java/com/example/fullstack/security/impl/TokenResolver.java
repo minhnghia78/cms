@@ -4,6 +4,7 @@ import com.example.fullstack.entity.UserRole;
 import com.example.fullstack.security.ITokenResolver;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -14,7 +15,7 @@ import java.util.Map;
 
 public class TokenResolver implements ITokenResolver {
 
-    private final String SECRET_KEY_STRING = "super_private_secret_key_string_of_minh_nghia_can_not_by_pass";
+    private String SECRET_KEY_STRING = "super_private_secret_key_string_of_minh_nghia_can_not_by_pass";
 
     private SecretKey SECRET_KEY = Keys.hmacShaKeyFor(SECRET_KEY_STRING.getBytes(StandardCharsets.UTF_8));
 
