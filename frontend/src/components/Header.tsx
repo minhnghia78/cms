@@ -21,19 +21,17 @@ import {
 } from "@ant-design/icons";
 import Logo from "./Logo";
 import logo from "../assets/voz-logo.png";
+import { Link } from "react-router-dom";
 
 const { Header: AntHeader } = Layout;
 const { Title } = Typography;
 const { Search } = Input;
 
 interface HeaderProps {
-  user?: {
-    name: string;
-    avatar?: string;
-  };
+  username?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ user }) => {
+const Header: React.FC<HeaderProps> = ({ username }) => {
   const handleSearch = (value: string) => {
     console.log("Search:", value);
   };
@@ -54,7 +52,10 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
       <Flex align="center" gap={16}>
         <Logo imgUrl={logo} />
       </Flex>
-      <Flex align="space-between" style={{ height: "100%", padding: "0 64px" }}>
+      <Flex
+        justify="space-between"
+        style={{ height: "100%", padding: "0 64px" }}
+      >
         <Col style={{ marginLeft: "24px" }}>
           <Tabs items={items} type="card" className="header-tabs" />
         </Col>
@@ -113,43 +114,36 @@ const Header: React.FC<HeaderProps> = ({ user }) => {
             </Badge>
 
             {/* User menu */}
-            {user ? (
-              <Space align="center">
-                <Avatar
-                  src={user.avatar}
-                  icon={<UserOutlined />}
-                  size="default"
-                  style={{
-                    backgroundColor: "#f59e0b",
-                    border: "2px solid rgba(255, 255, 255, 0.3)",
-                  }}
-                />
+            {username ? (
+              <Space>
+                <Avatar size={32} icon={<UserOutlined />} />
                 <Typography.Text
                   style={{
                     color: "white",
                     fontWeight: 500,
-                    marginLeft: "8px",
                   }}
                 >
-                  {user.name}
+                  {username}
                 </Typography.Text>
               </Space>
             ) : (
               <Space>
-                <Button
-                  type="default"
-                  size="small"
-                  style={{
-                    color: "white",
-                    borderColor: "rgba(255, 255, 255, 0.5)",
-                    backgroundColor: "transparent",
-                  }}
-                >
-                  Login
-                </Button>
+                <Link to={"/login"}>
+                  <Button
+                    type="default"
+                    size="middle"
+                    style={{
+                      color: "white",
+                      borderColor: "rgba(255, 255, 255, 0.5)",
+                      backgroundColor: "transparent",
+                    }}
+                  >
+                    Login
+                  </Button>
+                </Link>
                 <Button
                   type="primary"
-                  size="small"
+                  size="middle"
                   style={{
                     backgroundColor: "#f59e0b",
                     borderColor: "#f59e0b",
