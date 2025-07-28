@@ -28,6 +28,10 @@ instance.interceptors.response.use(
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    if (error.response && error.response.statusCode === "401") {
+      // Optional: implement refresh token logic or redirect to login
+      console.warn("Unauthorized, redirecting to login...");
+    }
     return Promise.reject(error);
   }
 );

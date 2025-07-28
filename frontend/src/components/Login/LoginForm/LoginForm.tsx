@@ -54,6 +54,7 @@ export const LoginForm = ({
               <Tooltip
                 title={`Mdasmdasm dasdmsmd adsasdsa \n sfadasdas`}
                 color="black"
+                open
               >
                 <ExclamationCircleOutlined />
               </Tooltip>

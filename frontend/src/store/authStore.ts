@@ -36,3 +36,15 @@ export const loginApi = async ({ username, password }: LoginFormType) => {
     return { success: false, error };
   }
 };
+
+export const logoutApi = () => {
+  try {
+    localStorage.removeItem("token");
+    useAuthStore.setState({
+      username: "",
+    });
+  } catch (error) {
+    console.error("Logout Error:", error);
+    return { success: false, error };
+  }
+};
